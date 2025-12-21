@@ -1,0 +1,9 @@
+mongosh --eval "use student_career; db.dropDatabase(); use student_career; db.test.insertOne({ init: true })"
+
+or
+
+mongosh
+use student_career
+db.dropDatabase()
+use student_career
+db.test.insertOne({ init: true })
