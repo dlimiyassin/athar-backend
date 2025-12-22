@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public record AcademicProfileDto(
-        String ecole,
-        String program,
-        Integer year,
+        DiplomeDto currentDiploma,
         Map<String, Object> customAttributes,
         List<DiplomeDto> diplomes
 ) {

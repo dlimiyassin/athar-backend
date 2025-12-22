@@ -24,9 +24,7 @@ public class AcademicProfileTransformer
         }
 
         AcademicProfile profile = new AcademicProfile();
-        profile.setEcole(dto.ecole());
-        profile.setProgram(dto.program());
-        profile.setYear(dto.year());
+        profile.setCurrentDiploma(diplomeTransformer.toEntity(dto.currentDiploma()));
         profile.setCustomAttributes(dto.customAttributes());
 
         profile.setDiplomes(
@@ -48,9 +46,7 @@ public class AcademicProfileTransformer
         }
 
         return new AcademicProfileDto(
-                entity.getEcole(),
-                entity.getProgram(),
-                entity.getYear(),
+                diplomeTransformer.toDto(entity.getCurrentDiploma()),
                 entity.getCustomAttributes(),
                 entity.getDiplomes() != null
                         ? entity.getDiplomes()

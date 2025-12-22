@@ -4,6 +4,8 @@ import com.student.career.bean.AcademicProfileField;
 import com.student.career.service.api.AcademicProfileFieldService;
 import com.student.career.ws.dto.AcademicProfileFieldDto;
 import com.student.career.ws.transformer.AcademicProfileFieldTransformer;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,5 +40,17 @@ public class AcademicProfileFieldController {
                 .stream()
                 .map(transformer::toDto)
                 .toList();
+    }
+
+    @PutMapping()
+    public ResponseEntity<AcademicProfileFieldDto> update(
+            @RequestBody @Valid AcademicProfileFieldDto dto
+    ) {
+        return ResponseEntity.ok(transformer.toDto(fieldService.update(transformer.toEntity(dto))));
+    }
+
+    @DeleteMapping("/{name}")
+    public ResponseEntity<AcademicProfileFieldDto> delete(@PathVariable String name) {
+        return ResponseEntity.ok(transformer.toDto(fieldService.deleteByName(name)));
     }
 }

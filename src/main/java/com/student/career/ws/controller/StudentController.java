@@ -11,6 +11,8 @@ import com.student.career.ws.transformer.StudentTransformer;
 import com.student.career.zBase.security.bean.User;
 import com.student.career.zBase.security.dao.facade.UserDao;
 import com.student.career.zBase.security.service.facade.UserService;
+import com.student.career.zBase.security.ws.transformer.UserTransformer;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,15 +26,17 @@ public class StudentController {
     private final StudentTransformer studentTransformer;
     private final StudentService studentService;
     private final UserService userService;
+    private final UserTransformer userTransformer;
 
     public StudentController(
             StudentProfileService studentProfileService,
-            StudentTransformer studentTransformer, StudentService studentService, UserService userService
+            StudentTransformer studentTransformer, StudentService studentService, UserService userService, UserTransformer userTransformer
     ) {
         this.studentProfileService = studentProfileService;
         this.studentTransformer = studentTransformer;
         this.studentService = studentService;
         this.userService = userService;
+        this.userTransformer = userTransformer;
     }
 
     @GetMapping
@@ -67,5 +71,13 @@ public class StudentController {
         );
         User user = userService.findById(updated.getUserId());
         return studentTransformer.toDto(updated, user);
+    }
+
+    @PostMapping
+    public ResponseEntity<StudentDto> signUp(@RequestBody StudentDto studentDto){
+        userService.save(userTransformer.toEntity(studentDto.user()));
+        Student savedStudent = studentService.save(studentTransformer.toEntity(studentDto));
+        StudentDto studentResponse = studentTransformer.toDto(savedStudent);
+        return ResponseEntity.ok(studentResponse);
     }
 }

@@ -19,8 +19,8 @@ public class AcademicProfileField {
     @Id
     private String id;
 
-    private String name;        // e.g. "gpa"
-    private String label;       // e.g. "Grade Point Average"
+    private String name;        // e.g. "yearsOfExperience" || it's linked with the 'String' in  Map<String, Object> customAttributes in AcademicProfile
+    private String label;       // e.g. "Years Of Experience"
     private FieldType type;     // TEXT, NUMBER, BOOLEAN
     private boolean required;
 }

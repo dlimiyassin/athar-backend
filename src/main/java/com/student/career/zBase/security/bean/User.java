@@ -18,16 +18,26 @@ public class User {
 
     @Id
     private String id;
+
+    // personal information
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
+
+    // business logic information
     private String password;
     private boolean enabled = false;
     private UserStatus status = UserStatus.EN_ATTENTE;
     @JsonBackReference
     private Set<Role> roles = new HashSet<>();
 
+
+
+
+
+
+    // helpers
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
