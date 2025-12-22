@@ -90,24 +90,25 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.save(student);
     }
 
+
+
     @Override
     public boolean checkProfileSetup() {
 
         String email = SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName();
+        User user = userService.loadUserByEmail(email);
+        Optional<Student> studentOpt = studentRepository.findById(user.getId());
 
-        Student student = studentRepository.findByUserEmail(email)
-                .orElseThrow(() ->
-                        new IllegalStateException("Student not found for user: " + email)
-                );
-
-        AcademicProfile profile = student.getAcademicProfile();
-
+        // ✔ If user exists but student does NOT exist → return false (profile setup is required)
+        if (studentOpt.isEmpty()) {
+            return false;
+        }
+        AcademicProfile profile = studentOpt.get().getAcademicProfile();
         if (profile == null) {
             return false;
         }
-
         return isAcademicProfileFilled(profile);
     }
 

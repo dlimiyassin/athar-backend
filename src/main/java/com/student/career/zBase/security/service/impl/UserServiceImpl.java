@@ -52,8 +52,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadUserByEmail(String email) {
-        return userDao.findByEmail(email).orElse(null);
+        return userDao.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User", "Email", email)
+                );
     }
+
 
     @Override
     public User createUser(String email, String password) {

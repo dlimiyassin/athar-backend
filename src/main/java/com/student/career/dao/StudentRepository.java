@@ -11,6 +11,4 @@ public interface StudentRepository extends MongoRepository<Student, String> {
 
     Optional<Student> findByUserId(String userId);
 
-    @Query("SELECT s FROM Student s JOIN User u ON s.userId = u.id WHERE u.email = :email")
-    Optional<Student> findByUserEmail(@Param("email") String email);
 }
