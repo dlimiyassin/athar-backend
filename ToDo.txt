@@ -1,0 +1,21 @@
+understand how to use dynamic fields, 
+work on forms configurations
+work on signup
+
+====
+understand how to use dynamic quiz, 
+work on quiz configurations
+work on quiz answers
+
+====
+export quiz from db to csv
+import quiz from scv to db
+
+
+
+
+
+
+
+fixs:
+- refresh token not working
