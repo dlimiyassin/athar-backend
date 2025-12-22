@@ -4,6 +4,9 @@ import com.student.career.zBase.security.service.facade.AuthService;
 import com.student.career.zBase.security.ws.dto.JWTAuthResponse;
 import com.student.career.zBase.security.ws.dto.LoginDto;
 import com.student.career.zBase.security.ws.dto.RegisterDto;
+import com.student.career.zBase.security.ws.dto.RegisterResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +28,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterDto registerDto) {
-        return authService.register(registerDto);
+    public ResponseEntity<RegisterResponse> registerStudent(@RequestBody RegisterDto registerDto) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new RegisterResponse(authService.register(registerDto)));
     }
+
+
+
 }

@@ -18,4 +18,7 @@ public interface StudentService extends IService {
     Student updateAcademicProfile(String studentId, AcademicProfile academicProfile);
 
     List<Student> findAll();
+
+    boolean checkProfileSetup();
+
 }

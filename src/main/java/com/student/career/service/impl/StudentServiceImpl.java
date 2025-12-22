@@ -4,7 +4,11 @@ import com.student.career.bean.AcademicProfile;
 import com.student.career.bean.Student;
 import com.student.career.dao.StudentRepository;
 import com.student.career.service.api.StudentService;
+import com.student.career.zBase.security.bean.User;
+import com.student.career.zBase.security.service.facade.UserService;
+import com.student.career.zBase.security.utils.SecurityUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +18,11 @@ import java.util.Optional;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+    private final UserService userService;
 
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, UserService userService) {
         this.studentRepository = studentRepository;
+        this.userService = userService;
     }
 
 
@@ -83,6 +89,36 @@ public class StudentServiceImpl implements StudentService {
         student.setAcademicProfile(academicProfile);
         return studentRepository.save(student);
     }
+
+    @Override
+    public boolean checkProfileSetup() {
+
+        String email = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Student student = studentRepository.findByUserEmail(email)
+                .orElseThrow(() ->
+                        new IllegalStateException("Student not found for user: " + email)
+                );
+
+        AcademicProfile profile = student.getAcademicProfile();
+
+        if (profile == null) {
+            return false;
+        }
+
+        return isAcademicProfileFilled(profile);
+    }
+
+    private boolean isAcademicProfileFilled(AcademicProfile profile) {
+
+        return profile.getCurrentDiploma() != null
+                || (profile.getDiplomes() != null && !profile.getDiplomes().isEmpty())
+                || (profile.getCustomAttributes() != null && !profile.getCustomAttributes().isEmpty());
+    }
+
+
 
     /* ================= CRITERIA / EXPORT ================= */
 

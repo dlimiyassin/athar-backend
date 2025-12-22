@@ -11,7 +11,9 @@ import com.student.career.ws.transformer.StudentTransformer;
 import com.student.career.zBase.security.bean.User;
 import com.student.career.zBase.security.dao.facade.UserDao;
 import com.student.career.zBase.security.service.facade.UserService;
+import com.student.career.zBase.security.ws.dto.RegisterResponse;
 import com.student.career.zBase.security.ws.transformer.UserTransformer;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,4 +82,12 @@ public class StudentController {
         StudentDto studentResponse = studentTransformer.toDto(savedStudent);
         return ResponseEntity.ok(studentResponse);
     }
+
+    @GetMapping("/check-student-setup")
+    public ResponseEntity<Boolean> checkProfileSetup() {
+        boolean isProfileCompleted = studentService.checkProfileSetup();
+        return ResponseEntity.ok(isProfileCompleted);
+    }
+
+
 }
