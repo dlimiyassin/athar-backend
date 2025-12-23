@@ -18,6 +18,7 @@ import com.student.career.zBase.util.CollectionUtil;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadUserByEmail(String email) {
+        return userDao.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User", "Email", email)
+                );
+    }
+
+    @Override
+    public User loadAuthenticatedUser() {
+        String email = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
         return userDao.findByEmail(email)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User", "Email", email)

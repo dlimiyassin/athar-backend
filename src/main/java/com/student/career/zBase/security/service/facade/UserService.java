@@ -14,6 +14,8 @@ public interface UserService {
 
     User loadUserByEmail(String email);
 
+    User loadAuthenticatedUser();
+
     User createUser(String email, String password);
 
     User save(User user);

@@ -28,6 +28,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student save(Student student) {
+        student.setUserId(this.userService.loadAuthenticatedUser().getId());
         return studentRepository.save(student);
     }
 

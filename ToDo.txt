@@ -1,7 +1,7 @@
-understand how to use dynamic fields, 
-work on forms configurations
-work on signup
-
+call for dynamic fields in complete-profile.ts
+check why when we save complete profile:
+    -  the sidebar stay the same
+    - and login we placed in setup mode again
 ====
 understand how to use dynamic quiz, 
 work on quiz configurations
