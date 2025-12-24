@@ -1,6 +1,18 @@
-change the view-survey
-each question and its options in one table, and each table can be collapsed
-connect view-survey methods to backend
+create user and test with new code
+create user and test with new code
+suspects :
+- check line by line
+- dynamic fields modification
+- enums modification
+- object structure
+
+
+
+
+- put validations in complete profile
+- call for dynamic fields in setup
+- fix the view-survey
+
 ====
 understand how to use dynamic quiz, 
 work on quiz configurations

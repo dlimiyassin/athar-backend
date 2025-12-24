@@ -118,7 +118,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     userDao.save(studentUser);
 
                     Diplome licence = new Diplome();
-                    licence.setUniversite(Universite.soltan_molay_slimane);
+                    licence.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
                     licence.setEcole("FST");
                     licence.setFiliere("Licence");
                     licence.setIntitule("Licence en Science Physique");
@@ -131,7 +131,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     profile.setCustomAttributes(Map.of("gpa", 3.5));
 
                     Diplome bac = new Diplome();
-                    bac.setUniversite(Universite.soltan_molay_slimane);
+                    bac.setUniversite(Universite.SIDI_MOHAMED_BEN_ABDELLAH);
                     bac.setEcole("Lycee Hassan 2");
                     bac.setFiliere("Science Physique");
                     bac.setIntitule("Bac en Science Physique");
@@ -167,7 +167,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     userDao.save(studentUser);
 
                     Diplome licence = new Diplome();
-                    licence.setUniversite(Universite.soltan_molay_slimane);
+                    licence.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
                     licence.setEcole("FST");
                     licence.setFiliere("Licence");
                     licence.setIntitule("Licence en Mathématiques Appliquées");
@@ -180,7 +180,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     profile.setCustomAttributes(Map.of("gpa", 3.2));
 
                     Diplome bac = new Diplome();
-                    bac.setUniversite(Universite.soltan_molay_slimane);
+                    bac.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
                     bac.setEcole("Lycee Mohammed V");
                     bac.setFiliere("Sciences Mathématiques");
                     bac.setIntitule("Bac en Sciences Mathématiques");
@@ -216,7 +216,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     userDao.save(studentUser);
 
                     Diplome licence = new Diplome();
-                    licence.setUniversite(Universite.soltan_molay_slimane);
+                    licence.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
                     licence.setEcole("FST");
                     licence.setFiliere("Licence");
                     licence.setIntitule("Licence en Informatique");
@@ -229,7 +229,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     profile.setCustomAttributes(Map.of("gpa", 3.8));
 
                     Diplome bac = new Diplome();
-                    bac.setUniversite(Universite.soltan_molay_slimane);
+                    bac.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
                     bac.setEcole("Lycee Al Khawarizmi");
                     bac.setFiliere("Sciences Mathématiques A");
                     bac.setIntitule("Bac Sciences Mathématiques A");
