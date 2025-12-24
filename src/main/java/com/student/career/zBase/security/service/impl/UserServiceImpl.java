@@ -1,6 +1,7 @@
 package com.student.career.zBase.security.service.impl;
 
 
+import com.student.career.exception.AuthenticationRequiredException;
 import com.student.career.exception.GlobalException;
 import com.student.career.exception.ResourceAlreadyExistsException;
 import com.student.career.exception.ResourceNotFoundException;
@@ -18,6 +19,7 @@ import com.student.career.zBase.util.CollectionUtil;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,9 +63,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadAuthenticatedUser() {
-        String email = SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AuthenticationRequiredException("No authenticated user found");
+        }
+
+        String email = authentication.getName();
         return userDao.findByEmail(email)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User", "Email", email)

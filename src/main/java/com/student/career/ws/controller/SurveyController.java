@@ -23,12 +23,11 @@ public class SurveyController {
         this.transformer = transformer;
     }
 
-    @PostMapping
-    public SurveyDto create(@RequestBody SurveyDto dto) {
-        Survey created = surveyService.save(
-                transformer.toEntity(dto)
-        );
-        return transformer.toDto(created);
+    @GetMapping()
+    public List<SurveyDto> findAll() {
+        return surveyService.findAll().stream()
+                .map(transformer::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -45,4 +44,23 @@ public class SurveyController {
                 .map(transformer::toDto)
                 .toList();
     }
+
+    @PostMapping
+    public SurveyDto create(@RequestBody SurveyDto dto) {
+        Survey created = surveyService.save(
+                transformer.toEntity(dto)
+        );
+        return transformer.toDto(created);
+    }
+
+
+    @PutMapping
+    public SurveyDto update(@RequestBody SurveyDto dto) {
+        Survey created = surveyService.update(
+                transformer.toEntity(dto)
+        );
+        return transformer.toDto(created);
+    }
+
+
 }

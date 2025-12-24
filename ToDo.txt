@@ -1,7 +1,6 @@
-call for dynamic fields in complete-profile.ts
-check why when we save complete profile:
-    -  the sidebar stay the same
-    - and login we placed in setup mode again
+change the view-survey
+each question and its options in one table, and each table can be collapsed
+connect view-survey methods to backend
 ====
 understand how to use dynamic quiz, 
 work on quiz configurations
@@ -10,8 +9,6 @@ work on quiz answers
 ====
 export quiz from db to csv
 import quiz from scv to db
-
-
 
 
 

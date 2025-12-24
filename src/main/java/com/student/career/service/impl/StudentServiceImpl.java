@@ -3,6 +3,7 @@ package com.student.career.service.impl;
 import com.student.career.bean.AcademicProfile;
 import com.student.career.bean.Student;
 import com.student.career.dao.StudentRepository;
+import com.student.career.exception.AuthenticationRequiredException;
 import com.student.career.service.api.StudentService;
 import com.student.career.zBase.security.bean.User;
 import com.student.career.zBase.security.service.facade.UserService;
@@ -28,7 +29,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student save(Student student) {
-        student.setUserId(this.userService.loadAuthenticatedUser().getId());
+        try {
+            User currentUser = userService.loadAuthenticatedUser();
+            student.setUserId(currentUser.getId());
+        } catch (AuthenticationRequiredException ignored) {}
+
         return studentRepository.save(student);
     }
 
@@ -96,29 +101,61 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean checkProfileSetup() {
 
-        String email = SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getName();
-        User user = userService.loadUserByEmail(email);
-        Optional<Student> studentOpt = studentRepository.findById(user.getId());
+        try {
+            User user = userService.loadAuthenticatedUser();
+            Optional<Student> studentOpt = studentRepository.findByUserId(user.getId());
+            // ✔ If user exists but student does NOT exist → return false (profile setup is required)
+            if (studentOpt.isEmpty()) {
+                return false;
+            }
+            AcademicProfile profile = studentOpt.get().getAcademicProfile();
+            if (profile == null) {
+                return false;
+            }
+            return isAcademicProfileFilled(profile);
 
-        // ✔ If user exists but student does NOT exist → return false (profile setup is required)
-        if (studentOpt.isEmpty()) {
-            return false;
-        }
-        AcademicProfile profile = studentOpt.get().getAcademicProfile();
-        if (profile == null) {
-            return false;
-        }
-        return isAcademicProfileFilled(profile);
+        } catch (AuthenticationRequiredException ignored) {}
+
+        return false;
     }
 
     private boolean isAcademicProfileFilled(AcademicProfile profile) {
 
-        return profile.getCurrentDiploma() != null
-                || (profile.getDiplomes() != null && !profile.getDiplomes().isEmpty())
-                || (profile.getCustomAttributes() != null && !profile.getCustomAttributes().isEmpty());
+        if (profile == null) return false;
+
+        // --- Check current diploma ---
+        boolean currentDiplomaFilled = false;
+
+        if (profile.getCurrentDiploma() != null) {
+            var d = profile.getCurrentDiploma();
+            currentDiplomaFilled =
+                    isNotBlank(d.getEcole()) ||
+                            isNotBlank(d.getFiliere()) ||
+                            isNotBlank(d.getIntitule());
+        }
+
+        // --- Check diplomas list ---
+        boolean diplomasFilled =
+                profile.getDiplomes() != null &&
+                        profile.getDiplomes().stream()
+                                .anyMatch(d ->
+                                        isNotBlank(d.getEcole()) ||
+                                                isNotBlank(d.getFiliere()) ||
+                                                isNotBlank(d.getIntitule())
+                                );
+
+        // --- Check custom attributes ---
+        boolean customAttributesFilled =
+                profile.getCustomAttributes() != null &&
+                        !profile.getCustomAttributes().isEmpty();
+
+        return currentDiplomaFilled || diplomasFilled || customAttributesFilled;
     }
+
+    private boolean isNotBlank(String s) {
+        return s != null && !s.isBlank();
+    }
+
 
 
 

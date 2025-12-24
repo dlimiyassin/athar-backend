@@ -48,7 +48,9 @@ public class SurveyTransformer
                         ? entity.getQuestions().stream().map(this::toQuestionDto).collect(Collectors.toList())
                         : null,
                 entity.getTarget(),
-                DateUtil.dateTimeToString(LocalDateTime.from(entity.getCreatedAt()))
+                entity.getCreatedAt() != null
+                        ? entity.getCreatedAt().toString()
+                        : null
         );
     }
 

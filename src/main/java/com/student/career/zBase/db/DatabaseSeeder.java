@@ -3,9 +3,12 @@ package com.student.career.zBase.db;
 import com.student.career.bean.*;
 import com.student.career.bean.enums.FieldType;
 import com.student.career.bean.enums.NiveauEtude;
+import com.student.career.bean.enums.QuestionType;
+import com.student.career.bean.enums.TargetType;
 import com.student.career.bean.enums.Universite;
 import com.student.career.dao.AcademicProfileFieldRepository;
 import com.student.career.service.api.StudentService;
+import com.student.career.service.api.SurveyService;
 import com.student.career.zBase.security.bean.Role;
 import com.student.career.zBase.security.bean.User;
 import com.student.career.zBase.security.bean.enums.UserStatus;
@@ -16,9 +19,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class DatabaseSeeder implements ApplicationRunner {
@@ -28,32 +29,34 @@ public class DatabaseSeeder implements ApplicationRunner {
     private final StudentService studentService;
     private final AcademicProfileFieldRepository academicProfileFieldRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SurveyService surveyService; // Add SurveyService
 
     public DatabaseSeeder(
             UserDao userDao,
             RoleDao roleDao,
             StudentService studentService,
             AcademicProfileFieldRepository academicProfileFieldRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            SurveyService surveyService // Inject SurveyService
     ) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.studentService = studentService;
         this.academicProfileFieldRepository = academicProfileFieldRepository;
         this.passwordEncoder = passwordEncoder;
+        this.surveyService = surveyService;
     }
 
     @Override
     public void run(ApplicationArguments args) {
 
-        /* ===================== ROLES ===================== */
 
         createRoleIfNotExists("ROLE_ADMIN");
         createRoleIfNotExists("ROLE_TEACHER");
         createRoleIfNotExists("ROLE_STUDENT");
 
-        /* ===================== ADMIN ===================== */
 
+        /* ===================== ADMIN ===================== */
         userDao.findByEmail("admin@studentcareer.com").ifPresentOrElse(
                 u -> {},
                 () -> {
@@ -74,7 +77,6 @@ public class DatabaseSeeder implements ApplicationRunner {
         );
 
         /* ===================== TEACHER ===================== */
-
         userDao.findByEmail("teacher@studentcareer.com").ifPresentOrElse(
                 u -> {},
                 () -> {
@@ -91,11 +93,13 @@ public class DatabaseSeeder implements ApplicationRunner {
                     teacher.setRoles(roles);
 
                     userDao.save(teacher);
+
+                    // Create surveys for this teacher
+                    createSampleSurveys(teacher.getId());
                 }
         );
 
-        /* ===================== STUDENT ===================== */
-
+        /* ===================== STUDENTS ===================== */
         userDao.findByEmail("student@studentcareer.com").ifPresentOrElse(
                 u -> {},
                 () -> {
@@ -245,21 +249,18 @@ public class DatabaseSeeder implements ApplicationRunner {
 
 
         /* ===================== ACADEMIC PROFILE FIELDS ===================== */
-
         createAcademicFieldIfNotExists(
                 "disabled",
                 "Disabled",
                 FieldType.BOOLEAN,
                 true
         );
-
         createAcademicFieldIfNotExists(
                 "birthdate",
                 "Birthdate",
                 FieldType.DATE,
                 false
         );
-
         createAcademicFieldIfNotExists(
                 "motivation",
                 "Motivation",
@@ -269,7 +270,6 @@ public class DatabaseSeeder implements ApplicationRunner {
     }
 
     /* ===================== HELPERS ===================== */
-
     private void createRoleIfNotExists(String roleName) {
         if (roleDao.findByName(roleName).isEmpty()) {
             roleDao.save(new Role(roleName));
@@ -293,5 +293,113 @@ public class DatabaseSeeder implements ApplicationRunner {
                     academicProfileFieldRepository.save(field);
                 }
         );
+    }
+
+
+
+    /* ===================== SURVEY CREATION ===================== */
+    private void createSampleSurveys(String teacherId) {
+        // Check if surveys already exist for this teacher
+        List<Survey> existingSurveys = surveyService.findByTeacher(teacherId);
+        if (!existingSurveys.isEmpty()) {
+            return; // Surveys already created
+        }
+
+        // Survey 1: Semester Feedback
+        Survey semesterFeedback = new Survey();
+        semesterFeedback.setTitle("Semester Feedback");
+        semesterFeedback.setDescription("Students evaluate this semester's courses and teaching methods.");
+        semesterFeedback.setCreatedByTeacherId(teacherId);
+        semesterFeedback.setTarget(TargetType.ALL_STUDENTS);
+
+        List<Question> questions1 = new ArrayList<>();
+
+        // Question 1
+        Question q1 = new Question();
+        q1.setId(UUID.randomUUID().toString());
+        q1.setType(QuestionType.SCALE);
+        q1.setLabel("How satisfied are you with this semester overall?");
+        q1.setOptions(Arrays.asList("1", "2", "3", "4", "5"));
+        questions1.add(q1);
+
+        // Question 2
+        Question q2 = new Question();
+        q2.setId(UUID.randomUUID().toString());
+        q2.setType(QuestionType.CHOICE);
+        q2.setLabel("What was the most useful course this semester?");
+        q2.setOptions(Arrays.asList(
+                "Physics",
+                "Mathematics",
+                "Computer Science",
+                "English",
+                "Other"
+        ));
+        questions1.add(q2);
+
+        // Question 3
+        Question q3 = new Question();
+        q3.setId(UUID.randomUUID().toString());
+        q3.setType(QuestionType.TEXT);
+        q3.setLabel("Any suggestions for improving next semester?");
+        q3.setOptions(new ArrayList<>());
+        questions1.add(q3);
+
+        semesterFeedback.setQuestions(questions1);
+        surveyService.save(semesterFeedback);
+
+        // Survey 2: Course Quality Survey
+        Survey courseQuality = new Survey();
+        courseQuality.setTitle("Course Quality Survey");
+        courseQuality.setDescription("Help us improve the course content and teaching methods.");
+        courseQuality.setCreatedByTeacherId(teacherId);
+        courseQuality.setTarget(TargetType.ALL_STUDENTS);
+
+        List<Question> questions2 = new ArrayList<>();
+
+        // Question 1
+        Question q4 = new Question();
+        q4.setId(UUID.randomUUID().toString());
+        q4.setType(QuestionType.SCALE);
+        q4.setLabel("Rate the clarity of course materials (1-5):");
+        q4.setOptions(Arrays.asList("1", "2", "3", "4", "5"));
+        questions2.add(q4);
+
+        // Question 2
+        Question q5 = new Question();
+        q5.setId(UUID.randomUUID().toString());
+        q5.setType(QuestionType.CHOICE);
+        q5.setLabel("Which resources did you find most helpful? (Select all that apply)");
+        q5.setOptions(Arrays.asList(
+                "Lecture slides",
+                "Textbook",
+                "Online videos",
+                "Practice exercises",
+                "Group discussions"
+        ));
+        questions2.add(q5);
+
+        // Question 3
+        Question q6 = new Question();
+        q6.setId(UUID.randomUUID().toString());
+        q6.setType(QuestionType.CHOICE);
+        q6.setLabel("How challenging was the course?");
+        q6.setOptions(Arrays.asList(
+                "Too easy",
+                "Just right",
+                "Somewhat challenging",
+                "Very challenging"
+        ));
+        questions2.add(q6);
+
+        // Question 4
+        Question q7 = new Question();
+        q7.setId(UUID.randomUUID().toString());
+        q7.setType(QuestionType.TEXT);
+        q7.setLabel("Any additional comments about the course?");
+        q7.setOptions(new ArrayList<>());
+        questions2.add(q7);
+
+        courseQuality.setQuestions(questions2);
+        surveyService.save(courseQuality);
     }
 }

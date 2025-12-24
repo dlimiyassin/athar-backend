@@ -1,5 +1,6 @@
 package com.student.career.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.student.career.bean.enums.TargetType;
 import com.student.career.zBase.bean.BaseEntity;
 import lombok.Getter;
@@ -25,7 +26,9 @@ public class Survey extends BaseEntity {
 
     private List<Question> questions;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Instant createdAt = Instant.now();
+
 
     private TargetType target;
 }

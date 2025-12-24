@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.Indexed;
+
 
 @Getter
 @Setter
@@ -19,6 +21,7 @@ public class Student  extends BaseEntity {
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private String userId; // reference to User
 
     private AcademicProfile academicProfile;
