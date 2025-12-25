@@ -1,29 +1,10 @@
-create user and test with new code
-create user and test with new code
-suspects :
-- check line by line
-- dynamic fields modification
-- enums modification
-- object structure
+- add 'survey creation'
 
-
-
-
-- put validations in complete profile
-- call for dynamic fields in setup
-- fix the view-survey
-
-====
-understand how to use dynamic quiz, 
-work on quiz configurations
 work on quiz answers
 
 ====
 export quiz from db to csv
 import quiz from scv to db
-
-
-
 
 
 fixs:

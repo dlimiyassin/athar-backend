@@ -253,13 +253,13 @@ public class DatabaseSeeder implements ApplicationRunner {
                 "disabled",
                 "Disabled",
                 FieldType.BOOLEAN,
-                true
+                false
         );
         createAcademicFieldIfNotExists(
                 "birthdate",
                 "Birthdate",
                 FieldType.DATE,
-                false
+                true
         );
         createAcademicFieldIfNotExists(
                 "motivation",
@@ -310,7 +310,7 @@ public class DatabaseSeeder implements ApplicationRunner {
         semesterFeedback.setTitle("Semester Feedback");
         semesterFeedback.setDescription("Students evaluate this semester's courses and teaching methods.");
         semesterFeedback.setCreatedByTeacherId(teacherId);
-        semesterFeedback.setTarget(TargetType.ALL_STUDENTS);
+        semesterFeedback.setTarget(TargetType.ALL);
 
         List<Question> questions1 = new ArrayList<>();
 
@@ -352,7 +352,7 @@ public class DatabaseSeeder implements ApplicationRunner {
         courseQuality.setTitle("Course Quality Survey");
         courseQuality.setDescription("Help us improve the course content and teaching methods.");
         courseQuality.setCreatedByTeacherId(teacherId);
-        courseQuality.setTarget(TargetType.ALL_STUDENTS);
+        courseQuality.setTarget(TargetType.ALL);
 
         List<Question> questions2 = new ArrayList<>();
 
