@@ -44,7 +44,9 @@ public class SurveyResponseTransformer
                 entity.getAnswers() != null
                         ? entity.getAnswers().stream().map(this::toAnswerDto).collect(Collectors.toList())
                         : null,
-                DateUtil.dateTimeToString(LocalDateTime.from(entity.getSubmittedAt()))
+                entity.getSubmittedAt() != null
+                        ? entity.getSubmittedAt().toString()
+                        : null
         );
     }
 

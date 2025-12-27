@@ -1,7 +1,10 @@
 package com.student.career.service.impl;
 
+import com.student.career.bean.Student;
 import com.student.career.bean.SurveyResponse;
 import com.student.career.dao.SurveyResponseRepository;
+import com.student.career.exception.ResourceNotFoundException;
+import com.student.career.service.api.StudentService;
 import com.student.career.service.api.SurveyResponseService;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +18,22 @@ public class SurveyResponseServiceImpl
         implements SurveyResponseService {
 
     private final SurveyResponseRepository repository;
+    private final StudentService studentService;
 
     public SurveyResponseServiceImpl(
-            SurveyResponseRepository repository
+            SurveyResponseRepository repository, StudentService studentService
     ) {
         this.repository = repository;
+        this.studentService = studentService;
     }
 
     @Override
     public SurveyResponse submit(SurveyResponse response) {
+        Optional<Student> student = studentService.findAuthenticatedStudent();
+        if (student.isEmpty()){
+            throw new ResourceNotFoundException("Student","Id", 0L);
+        }
+        response.setStudentId(student.get().getId());
         if (response.getSubmittedAt() == null) {
             response.setSubmittedAt(Instant.from(LocalDateTime.now()));
         }

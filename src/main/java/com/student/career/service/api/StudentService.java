@@ -15,6 +15,8 @@ public interface StudentService extends IService {
 
     Optional<Student> findByUserId(String userId);
 
+    Optional<Student> findAuthenticatedStudent();
+
     Student updateAcademicProfile(String studentId, AcademicProfile academicProfile);
 
     List<Student> findAll();

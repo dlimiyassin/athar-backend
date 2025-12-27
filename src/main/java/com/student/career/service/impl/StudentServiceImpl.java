@@ -1,9 +1,7 @@
 package com.student.career.service.impl;
 
 import com.student.career.bean.AcademicProfile;
-import com.student.career.bean.AcademicProfileField;
 import com.student.career.bean.Student;
-import com.student.career.bean.enums.FieldType;
 import com.student.career.dao.StudentRepository;
 import com.student.career.exception.AuthenticationRequiredException;
 import com.student.career.service.api.AcademicProfileFieldService;
@@ -14,9 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -85,6 +81,12 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Optional<Student> findByUserId(String userId) {
         return studentRepository.findFirstByUserId(userId);
+    }
+
+    @Override
+    public Optional<Student> findAuthenticatedStudent() {
+        User user = userService.loadAuthenticatedUser();
+        return findByUserId(user.getId());
     }
 
     @Override

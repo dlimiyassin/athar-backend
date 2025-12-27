@@ -25,8 +25,8 @@ import java.util.Optional;
 public class StudentController {
 
     private final StudentProfileService studentProfileService;
-    private final StudentTransformer studentTransformer;
     private final StudentService studentService;
+    private final StudentTransformer studentTransformer;
     private final UserService userService;
     private final UserTransformer userTransformer;
 
