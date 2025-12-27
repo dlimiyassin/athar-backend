@@ -92,9 +92,9 @@ public class StudentController {
 
     @GetMapping("/check-student-setup")
     public ResponseEntity<Boolean> checkProfileSetup() {
-        boolean isProfileCompleted = studentService.checkProfileSetup();
-        System.out.println(isProfileCompleted);
-        return ResponseEntity.ok(isProfileCompleted);
+        boolean isProfileIncompleted = studentService.checkProfileSetup();
+        System.out.println(isProfileIncompleted);
+        return ResponseEntity.ok(isProfileIncompleted);
     }
 
 

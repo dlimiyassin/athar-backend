@@ -1,7 +1,7 @@
-- add 'survey creation'
-
-work on quiz answers
-
+- work on quiz answers
+- in frontend, dynamic fields if check box, initialize it with false
+- synx isProfileIncompleted between backend and frontend
+- load profile info if they exist and sync them
 ====
 export quiz from db to csv
 import quiz from scv to db
@@ -9,3 +9,4 @@ import quiz from scv to db
 
 fixs:
 - refresh token not working
+- fix responsivity in setup,

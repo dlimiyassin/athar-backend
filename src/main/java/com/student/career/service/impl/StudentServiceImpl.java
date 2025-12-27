@@ -1,29 +1,34 @@
 package com.student.career.service.impl;
 
 import com.student.career.bean.AcademicProfile;
+import com.student.career.bean.AcademicProfileField;
 import com.student.career.bean.Student;
+import com.student.career.bean.enums.FieldType;
 import com.student.career.dao.StudentRepository;
 import com.student.career.exception.AuthenticationRequiredException;
+import com.student.career.service.api.AcademicProfileFieldService;
 import com.student.career.service.api.StudentService;
 import com.student.career.zBase.security.bean.User;
 import com.student.career.zBase.security.service.facade.UserService;
-import com.student.career.zBase.security.utils.SecurityUtil;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final UserService userService;
+    private final AcademicProfileFieldService academicProfileFieldService;
 
-    public StudentServiceImpl(StudentRepository studentRepository, UserService userService) {
+    public StudentServiceImpl(StudentRepository studentRepository, UserService userService, AcademicProfileFieldService academicProfileFieldService) {
         this.studentRepository = studentRepository;
         this.userService = userService;
+        this.academicProfileFieldService = academicProfileFieldService;
     }
 
 
@@ -79,7 +84,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Optional<Student> findByUserId(String userId) {
-        return studentRepository.findByUserId(userId);
+        return studentRepository.findFirstByUserId(userId);
     }
 
     @Override
@@ -103,58 +108,50 @@ public class StudentServiceImpl implements StudentService {
 
         try {
             User user = userService.loadAuthenticatedUser();
-            Optional<Student> studentOpt = studentRepository.findByUserId(user.getId());
-            // ✔ If user exists but student does NOT exist → return false (profile setup is required)
+            Optional<Student> studentOpt = studentRepository.findFirstByUserId(user.getId());
+
             if (studentOpt.isEmpty()) {
-                return false;
+                return true; // profile is incomplete
             }
+
             AcademicProfile profile = studentOpt.get().getAcademicProfile();
-            if (profile == null) {
-                return false;
-            }
-            return isAcademicProfileFilled(profile);
+            return isAcademicProfileIncomplete(profile);
 
         } catch (AuthenticationRequiredException ignored) {}
 
-        return false;
+        return true; // default: incomplete
     }
 
-    private boolean isAcademicProfileFilled(AcademicProfile profile) {
+    private boolean isAcademicProfileIncomplete(AcademicProfile profile) {
 
-        if (profile == null) return false;
+        if (profile == null) return true;
 
-        // --- Check current diploma ---
-        boolean currentDiplomaFilled = false;
+        // ---- Current diploma is required ----
+        if (profile.getCurrentDiploma() == null) return true;
 
-        if (profile.getCurrentDiploma() != null) {
-            var d = profile.getCurrentDiploma();
-            currentDiplomaFilled =
-                    isNotBlank(d.getEcole()) ||
-                            isNotBlank(d.getFiliere()) ||
-                            isNotBlank(d.getIntitule());
+        var d = profile.getCurrentDiploma();
+
+        if (isBlank(d.getEcole())) return true;
+        if (isBlank(d.getFiliere())) return true;
+        if (isBlank(d.getIntitule())) return true;
+
+        // ---- Diplomas list required ----
+        if (profile.getDiplomes() == null || profile.getDiplomes().isEmpty()) {
+            return true;
         }
 
-        // --- Check diplomas list ---
-        boolean diplomasFilled =
-                profile.getDiplomes() != null &&
-                        profile.getDiplomes().stream()
-                                .anyMatch(d ->
-                                        isNotBlank(d.getEcole()) ||
-                                                isNotBlank(d.getFiliere()) ||
-                                                isNotBlank(d.getIntitule())
-                                );
-
-        // --- Check custom attributes ---
-        boolean customAttributesFilled =
-                profile.getCustomAttributes() != null &&
-                        !profile.getCustomAttributes().isEmpty();
-
-        return currentDiplomaFilled || diplomasFilled || customAttributesFilled;
+        // ---- Custom attributes required ----
+        return profile.getCustomAttributes() == null;
     }
 
-    private boolean isNotBlank(String s) {
-        return s != null && !s.isBlank();
+
+    private boolean isBlank(String s) {
+        return s == null || s.isBlank();
     }
+
+
+
+
 
 
 

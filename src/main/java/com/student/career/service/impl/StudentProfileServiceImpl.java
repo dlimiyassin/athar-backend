@@ -29,7 +29,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
 
     @Override
     public Student getByUserId(String userId) {
-        return studentRepository.findByUserId(userId)
+        return studentRepository.findFirstByUserId(userId)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Student not found for userId: " + userId)
                 );

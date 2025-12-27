@@ -69,6 +69,12 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
+    @GetMapping("/authenticated-user")
+    public ResponseEntity<UserDto> loadAuthenticatedUser() {
+        UserDto userDto = userTransformer.toDto(userService.loadAuthenticatedUser());
+        return ResponseEntity.ok(userDto);
+    }
+
     @PostMapping("/find-by-criteria")
     public ResponseEntity<List<UserDto>> findByCriteria(@RequestBody UserCriteria userCriteria) {
         List<User> users = userService.findByCriteria(userCriteria);
