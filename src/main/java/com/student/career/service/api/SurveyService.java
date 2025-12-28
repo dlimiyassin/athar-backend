@@ -12,7 +12,11 @@ public interface SurveyService {
 
     Survey findById(String id);
 
-    List<Survey> findByTeacher(String teacherId);
+    List<Survey> findByTeacher();
+
+    List<Survey> findSurveyNotAnsweredByStudent();
+
+    List<Survey> findSurveyAnsweredByStudent();
 
     List<Survey> findAll();
 

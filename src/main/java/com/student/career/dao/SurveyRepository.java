@@ -8,4 +8,9 @@ import java.util.List;
 public interface SurveyRepository extends MongoRepository<Survey, String> {
 
     List<Survey> findByCreatedByTeacherId(String teacherId);
+
+    List<Survey> findByIdNotIn(List<String> ids);
+
+    List<Survey> findByIdIn(List<String> ids);
+
 }

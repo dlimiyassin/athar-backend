@@ -300,7 +300,7 @@ public class DatabaseSeeder implements ApplicationRunner {
     /* ===================== SURVEY CREATION ===================== */
     private void createSampleSurveys(String teacherId) {
         // Check if surveys already exist for this teacher
-        List<Survey> existingSurveys = surveyService.findByTeacher(teacherId);
+        List<Survey> existingSurveys = surveyService.findByTeacher();
         if (!existingSurveys.isEmpty()) {
             return; // Surveys already created
         }

@@ -22,6 +22,7 @@ public class SurveyResponseTransformer
         }
         SurveyResponse response = new SurveyResponse();
         response.setId(dto.id());
+        response.setSurveyLabel(dto.surveyLabel());
         response.setSurveyId(dto.surveyId());
         response.setStudentId(dto.studentId());
         response.setAnswers(
@@ -39,6 +40,7 @@ public class SurveyResponseTransformer
         }
         return new SurveyResponseDto(
                 entity.getId(),
+                entity.getSurveyLabel(),
                 entity.getSurveyId(),
                 entity.getStudentId(),
                 entity.getAnswers() != null
@@ -53,6 +55,7 @@ public class SurveyResponseTransformer
     private Answer toAnswerEntity(AnswerDto dto) {
         Answer a = new Answer();
         a.setQuestionId(dto.questionId());
+        a.setQuestionLabel(dto.questionLabel());
         a.setValue(dto.value());
         return a;
     }
@@ -60,6 +63,7 @@ public class SurveyResponseTransformer
     private AnswerDto toAnswerDto(Answer entity) {
         return new AnswerDto(
                 entity.getQuestionId(),
+                entity.getQuestionLabel(),
                 entity.getValue()
         );
     }

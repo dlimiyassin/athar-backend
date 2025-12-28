@@ -14,5 +14,10 @@ public interface SurveyResponseService {
             String studentId
     );
 
+    List<SurveyResponse> findByStudent(String studentId);
+
+    List<SurveyResponse> findByStudent();
+
     List<SurveyResponse> findBySurvey(String surveyId);
+
 }

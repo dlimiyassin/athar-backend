@@ -15,4 +15,6 @@ public interface SurveyResponseRepository
             String surveyId,
             String studentId
     );
+
+    List<SurveyResponse> findByStudentId(String studentId);
 }

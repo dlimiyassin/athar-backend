@@ -24,6 +24,8 @@ public class SurveyResponse {
 
     @Id
     private String id;
+
+    private String surveyLabel;
     private String surveyId;
     private String studentId;
 

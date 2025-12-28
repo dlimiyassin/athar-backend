@@ -35,11 +35,9 @@ public class SurveyController {
         return transformer.toDto(surveyService.findById(id));
     }
 
-    @GetMapping("/teacher/{teacherId}")
-    public List<SurveyDto> findByTeacher(
-            @PathVariable String teacherId
-    ) {
-        return surveyService.findByTeacher(teacherId)
+    @GetMapping("/teacher")
+    public List<SurveyDto> findByTeacher() {
+        return surveyService.findByTeacher()
                 .stream()
                 .map(transformer::toDto)
                 .toList();
@@ -62,5 +60,19 @@ public class SurveyController {
         return transformer.toDto(created);
     }
 
+    @GetMapping("/answered-by-student")
+    public List<SurveyDto> findSurveyAnsweredByStudent() {
+        return surveyService.findSurveyAnsweredByStudent()
+                .stream()
+                .map(transformer::toDto)
+                .toList();
+    }
 
+    @GetMapping("/not-answered-by-student")
+    public List<SurveyDto> findSurveyNotAnsweredByStudent() {
+        return surveyService.findSurveyNotAnsweredByStudent()
+                .stream()
+                .map(transformer::toDto)
+                .toList();
+    }
 }

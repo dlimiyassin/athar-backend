@@ -40,6 +40,14 @@ public class SurveyResponseController {
                 .toList();
     }
 
+    @GetMapping("/student")
+    public List<SurveyResponseDto> findByStudent() {
+        return surveyResponseService.findByStudent()
+                .stream()
+                .map(transformer::toDto)
+                .toList();
+    }
+
     @GetMapping("/survey/{surveyId}/student/{studentId}")
     public ResponseEntity<SurveyResponseDto> findBySurveyAndStudent(
             @PathVariable String surveyId,

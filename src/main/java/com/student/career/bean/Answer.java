@@ -8,5 +8,6 @@ import lombok.Setter;
 public class Answer {
 
     private String questionId;
+    private String questionLabel;
     private String value;
 }

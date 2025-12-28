@@ -52,6 +52,20 @@ public class SurveyResponseServiceImpl
     }
 
     @Override
+    public List<SurveyResponse> findByStudent(String studentId) {
+        return repository.findByStudentId(studentId);
+    }
+
+    @Override
+    public List<SurveyResponse> findByStudent() {
+        Optional<Student> student = studentService.findAuthenticatedStudent();
+        if (student.isEmpty()){
+            throw new ResourceNotFoundException("Student","Id", 0L);
+        }
+        return repository.findByStudentId(student.get().getId());
+    }
+
+    @Override
     public List<SurveyResponse> findBySurvey(String surveyId) {
         return repository.findBySurveyId(surveyId);
     }
