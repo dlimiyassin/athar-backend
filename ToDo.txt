@@ -1,5 +1,3 @@
-- load submitted answers for both profiles student and teacher
-- for student profile remove answered surveys from the list
 - add delete survey button in table with confirmation
 ====
 ask abdo if the azure api require a fixed structure of columns, or it takes what ever and how is the returned value looks like?
