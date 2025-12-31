@@ -123,5 +123,8 @@ public class SurveyServiceImpl implements SurveyService {
         return surveyRepository.findByIdIn(answeredSurveyIds);
     }
 
-
+    @Override
+    public void deleteByID(String surveyId) {
+        this.surveyRepository.deleteById(surveyId);
+    }
 }

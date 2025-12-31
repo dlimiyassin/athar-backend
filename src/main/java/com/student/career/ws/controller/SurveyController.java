@@ -4,6 +4,7 @@ import com.student.career.bean.Survey;
 import com.student.career.service.api.SurveyService;
 import com.student.career.ws.dto.SurveyDto;
 import com.student.career.ws.transformer.SurveyTransformer;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -75,4 +76,10 @@ public class SurveyController {
                 .map(transformer::toDto)
                 .toList();
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteSurveyById(@PathVariable String id) {
+        surveyService.deleteByID(id);
+    }
+
 }

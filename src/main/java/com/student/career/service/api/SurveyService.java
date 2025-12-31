@@ -21,4 +21,6 @@ public interface SurveyService {
     List<Survey> findAll();
 
     Survey update(Survey entity);
+
+    void deleteByID(String survey);
 }

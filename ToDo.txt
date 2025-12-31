@@ -1,7 +1,7 @@
-- add delete survey button in table with confirmation
+
 - add male/female
-- change all fr -> eng begin from enums/beans
-- centralize universities, schools, fields of study in dictionary document
+- sync universities/schools/ study fields in setup profile
+- make grade/year in current diploma optional
 - edit profile for students
 
 fixs:
