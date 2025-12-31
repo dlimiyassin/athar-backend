@@ -17,4 +17,6 @@ public interface SurveyResponseRepository
     );
 
     List<SurveyResponse> findByStudentId(String studentId);
+
+    List<SurveyResponse> findByStudentIdIn(List<String> studentIds);
 }
