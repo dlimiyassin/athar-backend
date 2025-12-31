@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
-public enum Universite {
+public enum University {
     SOLTAN_MOLAY_SLIMANE("Université Sultan Moulay Slimane"),
     HASSAN_2("Université Hassan II"),
     IBN_TOFAIL("Université Ibn Tofail"),
@@ -41,15 +41,15 @@ public enum Universite {
 
     private final String nom;
 
-    Universite(String nom) {
+    University(String nom) {
         this.nom = nom;
     }
 
     // Optional: Method to get enum from string
-    public static Universite fromNom(String nom) {
-        for (Universite universite : values()) {
-            if (universite.nom.equalsIgnoreCase(nom)) {
-                return universite;
+    public static University fromNom(String nom) {
+        for (University university : values()) {
+            if (university.nom.equalsIgnoreCase(nom)) {
+                return university;
             }
         }
         return AUTRE; // Default to AUTRE if not found
@@ -58,15 +58,15 @@ public enum Universite {
     // Optional: Get all names as list
     public static List<String> getAllNoms() {
         return Arrays.stream(values())
-                .map(Universite::getNom)
+                .map(University::getNom)
                 .collect(Collectors.toList());
     }
 
     // Optional: Get enum values as map
     public static Map<String, String> asMap() {
         Map<String, String> map = new LinkedHashMap<>();
-        for (Universite universite : values()) {
-            map.put(universite.name(), universite.getNom());
+        for (University university : values()) {
+            map.put(university.name(), university.getNom());
         }
         return map;
     }

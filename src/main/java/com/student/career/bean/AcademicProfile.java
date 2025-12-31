@@ -12,9 +12,9 @@ import java.util.Map;
 @Setter
 public class AcademicProfile {
 
-    private Diplome currentDiploma;
+    private Diploma currentDiploma;
     // Dynamic, teacher-defined fields
     private Map<String, Object> customAttributes = new HashMap<>();
 
-    private List<Diplome> diplomes = new ArrayList<>();
+    private List<Diploma> diplomas = new ArrayList<>();
 }

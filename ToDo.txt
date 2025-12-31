@@ -1,10 +1,8 @@
 - add delete survey button in table with confirmation
 - add male/female
-====
-ask abdo if the azure api require a fixed structure of columns, or it takes what ever and how is the returned value looks like?
-export quiz from db to csv
-import quiz from scv to db
-
+- change all fr -> eng begin from enums/beans
+- centralize universities, schools, fields of study in dictionary document
+- edit profile for students
 
 fixs:
 - refresh token not working

@@ -133,12 +133,12 @@ public class StudentServiceImpl implements StudentService {
 
         var d = profile.getCurrentDiploma();
 
-        if (isBlank(d.getEcole())) return true;
-        if (isBlank(d.getFiliere())) return true;
-        if (isBlank(d.getIntitule())) return true;
+        if (isBlank(d.getSchool())) return true;
+        if (isBlank(d.getStudyField())) return true;
+        if (isBlank(d.getTitle())) return true;
 
         // ---- Diplomas list required ----
-        if (profile.getDiplomes() == null || profile.getDiplomes().isEmpty()) {
+        if (profile.getDiplomas() == null || profile.getDiplomas().isEmpty()) {
             return true;
         }
 

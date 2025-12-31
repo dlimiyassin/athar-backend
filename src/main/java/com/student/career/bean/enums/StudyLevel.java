@@ -3,7 +3,7 @@ package com.student.career.bean.enums;
 import lombok.Getter;
 
 @Getter
-public enum NiveauEtude {
+public enum StudyLevel {
     BAC("Baccalauréat"),
     BAC_PLUS_1("BAC+1"),
     BAC_PLUS_2("BAC+2"),
@@ -16,7 +16,7 @@ public enum NiveauEtude {
 
     private final String label;
 
-    NiveauEtude(String label) {
+    StudyLevel(String label) {
         this.label = label;
     }
 

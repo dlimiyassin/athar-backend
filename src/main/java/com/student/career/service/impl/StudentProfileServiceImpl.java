@@ -2,7 +2,7 @@ package com.student.career.service.impl;
 
 import com.student.career.bean.AcademicProfile;
 import com.student.career.bean.AcademicProfileField;
-import com.student.career.bean.Diplome;
+import com.student.career.bean.Diploma;
 import com.student.career.bean.Student;
 import com.student.career.dao.StudentRepository;
 import com.student.career.service.api.AcademicProfileFieldService;
@@ -136,12 +136,12 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
 
     private void validateDiplomes(AcademicProfile profile) {
-        if (profile.getDiplomes() == null) {
+        if (profile.getDiplomas() == null) {
             return;
         }
 
-        for (Diplome d : profile.getDiplomes()) {
-            if (d.getNiveauEtude() == null) {
+        for (Diploma d : profile.getDiplomas()) {
+            if (d.getStudyLevel() == null) {
                 throw new IllegalArgumentException("Niveau d'étude is required");
             }
             if (d.getYear() == null) {

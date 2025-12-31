@@ -2,7 +2,7 @@ package com.student.career.service.impl;
 
 import com.student.career.bean.AcademicProfile;
 import com.student.career.bean.AcademicProfileField;
-import com.student.career.bean.Diplome;
+import com.student.career.bean.Diploma;
 import com.student.career.bean.Student;
 import com.student.career.dao.AcademicProfileFieldRepository;
 import com.student.career.dao.StudentRepository;
@@ -85,13 +85,13 @@ public class StudentSurveyExportServiceImpl
 
             headers.addAll(List.of(
                     "student_id",
-                    "current_university",
-                    "current_school",
-                    "current_level",
-                    "current_field"
-//                    "current_diploma_title",
-//                    "current_year",
-//                    "current_grade"
+                    "university",
+                    "school",
+                    "level",
+                    "field"
+//                    "diploma_title",
+//                    "year",
+//                    "grade"
             ));
 
             headers.addAll(academicFieldLabels);
@@ -138,7 +138,7 @@ public class StudentSurveyExportServiceImpl
                     AcademicProfile profile =
                             student.getAcademicProfile();
 
-                    Diplome diploma = profile != null
+                    Diploma diploma = profile != null
                             ? profile.getCurrentDiploma()
                             : null;
 
@@ -146,20 +146,20 @@ public class StudentSurveyExportServiceImpl
 
                     // Fixed columns
                     row.add(anonymizationUtil.anonymizeStudentId(student.getId()));
-                    row.add(diploma != null && diploma.getUniversite() != null
-                            ? diploma.getUniversite().name()
+                    row.add(diploma != null && diploma.getUniversity() != null
+                            ? diploma.getUniversity().name()
                             : "");
-                    row.add(diploma != null ? diploma.getEcole() : "");
-                    row.add(diploma != null && diploma.getNiveauEtude() != null
-                            ? diploma.getNiveauEtude().name()
+                    row.add(diploma != null ? diploma.getSchool() : "");
+                    row.add(diploma != null && diploma.getStudyLevel() != null
+                            ? diploma.getStudyLevel().name()
                             : "");
-                    row.add(diploma != null ? diploma.getFiliere() : "");
-//                    row.add(diploma != null ? diploma.getIntitule() : "");
+                    row.add(diploma != null ? diploma.getStudyField() : "");
+//                    row.add(diploma != null ? diploma.getTitle() : "");
 //                    row.add(diploma != null && diploma.getYear() != null
 //                            ? diploma.getYear().toString()
 //                            : "");
-//                    row.add(diploma != null && diploma.getNote() != null
-//                            ? diploma.getNote().toString()
+//                    row.add(diploma != null && diploma.getGrade() != null
+//                            ? diploma.getGrade().toString()
 //                            : "");
 
                     // Custom academic attributes

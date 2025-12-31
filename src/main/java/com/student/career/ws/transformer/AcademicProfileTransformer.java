@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 public class AcademicProfileTransformer
         extends AbstractTransformer<AcademicProfile, AcademicProfileDto> {
 
-    private final DiplomeTransformer diplomeTransformer;
+    private final DiplomaTransformer diplomaTransformer;
 
-    public AcademicProfileTransformer(DiplomeTransformer diplomeTransformer) {
-        this.diplomeTransformer = diplomeTransformer;
+    public AcademicProfileTransformer(DiplomaTransformer diplomaTransformer) {
+        this.diplomaTransformer = diplomaTransformer;
     }
 
     @Override
@@ -24,14 +24,14 @@ public class AcademicProfileTransformer
         }
 
         AcademicProfile profile = new AcademicProfile();
-        profile.setCurrentDiploma(diplomeTransformer.toEntity(dto.currentDiploma()));
+        profile.setCurrentDiploma(diplomaTransformer.toEntity(dto.currentDiploma()));
         profile.setCustomAttributes(dto.customAttributes());
 
-        profile.setDiplomes(
-                dto.diplomes() != null
-                        ? dto.diplomes()
+        profile.setDiplomas(
+                dto.diplomas() != null
+                        ? dto.diplomas()
                         .stream()
-                        .map(diplomeTransformer::toEntity)
+                        .map(diplomaTransformer::toEntity)
                         .collect(Collectors.toList())
                         : null
         );
@@ -46,12 +46,12 @@ public class AcademicProfileTransformer
         }
 
         return new AcademicProfileDto(
-                diplomeTransformer.toDto(entity.getCurrentDiploma()),
+                diplomaTransformer.toDto(entity.getCurrentDiploma()),
                 entity.getCustomAttributes(),
-                entity.getDiplomes() != null
-                        ? entity.getDiplomes()
+                entity.getDiplomas() != null
+                        ? entity.getDiplomas()
                         .stream()
-                        .map(diplomeTransformer::toDto)
+                        .map(diplomaTransformer::toDto)
                         .collect(Collectors.toList())
                         : null
         );

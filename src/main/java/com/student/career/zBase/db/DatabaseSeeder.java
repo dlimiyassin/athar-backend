@@ -2,10 +2,10 @@ package com.student.career.zBase.db;
 
 import com.student.career.bean.*;
 import com.student.career.bean.enums.FieldType;
-import com.student.career.bean.enums.NiveauEtude;
+import com.student.career.bean.enums.StudyLevel;
 import com.student.career.bean.enums.QuestionType;
 import com.student.career.bean.enums.TargetType;
-import com.student.career.bean.enums.Universite;
+import com.student.career.bean.enums.University;
 import com.student.career.dao.AcademicProfileFieldRepository;
 import com.student.career.service.api.StudentService;
 import com.student.career.service.api.SurveyService;
@@ -55,6 +55,25 @@ public class DatabaseSeeder implements ApplicationRunner {
         createRoleIfNotExists("ROLE_TEACHER");
         createRoleIfNotExists("ROLE_STUDENT");
 
+        /* ===================== ACADEMIC PROFILE FIELDS ===================== */
+        createAcademicFieldIfNotExists(
+                "bilingual",
+                "Bilingual",
+                FieldType.BOOLEAN,
+                false
+        );
+        createAcademicFieldIfNotExists(
+                "birthdate",
+                "Birthdate",
+                FieldType.DATE,
+                true
+        );
+        createAcademicFieldIfNotExists(
+                "motivation",
+                "Motivation",
+                FieldType.TEXT,
+                false
+        );
 
         /* ===================== ADMIN ===================== */
         userDao.findByEmail("admin@studentcareer.com").ifPresentOrElse(
@@ -117,29 +136,32 @@ public class DatabaseSeeder implements ApplicationRunner {
 
                     userDao.save(studentUser);
 
-                    Diplome licence = new Diplome();
-                    licence.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
-                    licence.setEcole("FST");
-                    licence.setFiliere("Licence");
-                    licence.setIntitule("Licence en Science Physique");
-                    licence.setNiveauEtude(NiveauEtude.BAC);
+                    Diploma licence = new Diploma();
+                    licence.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
+                    licence.setSchool("FST");
+                    licence.setStudyField("Licence");
+                    licence.setTitle("Licence en Science Physique");
+                    licence.setStudyLevel(StudyLevel.BAC);
                     licence.setYear(null);
-                    licence.setNote(null);
+                    licence.setGrade(null);
 
                     AcademicProfile profile = new AcademicProfile();
                     profile.setCurrentDiploma(licence);
-                    profile.setCustomAttributes(Map.of("gpa", 3.5));
+                    profile.setCustomAttributes(Map.of("bilingual", true));
+                    profile.setCustomAttributes(Map.of("birthdate", new Date()));
+                    profile.setCustomAttributes(Map.of("motivation", "i'm happy"));
 
-                    Diplome bac = new Diplome();
-                    bac.setUniversite(Universite.SIDI_MOHAMED_BEN_ABDELLAH);
-                    bac.setEcole("Lycee Hassan 2");
-                    bac.setFiliere("Science Physique");
-                    bac.setIntitule("Bac en Science Physique");
+
+                    Diploma bac = new Diploma();
+                    bac.setUniversity(University.SIDI_MOHAMED_BEN_ABDELLAH);
+                    bac.setSchool("Lycee Hassan 2");
+                    bac.setStudyField("Science Physique");
+                    bac.setTitle("Bac en Science Physique");
                     bac.setYear(2022);
-                    bac.setNiveauEtude(NiveauEtude.BAC);
-                    bac.setNote(14.22);
+                    bac.setStudyLevel(StudyLevel.BAC);
+                    bac.setGrade(14.22);
 
-                    profile.getDiplomes().add(bac);
+                    profile.getDiplomas().add(bac);
 
                     Student student = new Student();
                     student.setUserId(studentUser.getId());
@@ -166,29 +188,31 @@ public class DatabaseSeeder implements ApplicationRunner {
 
                     userDao.save(studentUser);
 
-                    Diplome licence = new Diplome();
-                    licence.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
-                    licence.setEcole("FST");
-                    licence.setFiliere("Licence");
-                    licence.setIntitule("Licence en Mathématiques Appliquées");
-                    licence.setNiveauEtude(NiveauEtude.BAC);
+                    Diploma licence = new Diploma();
+                    licence.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
+                    licence.setSchool("FST");
+                    licence.setStudyField("Licence");
+                    licence.setTitle("Licence en Mathématiques Appliquées");
+                    licence.setStudyLevel(StudyLevel.BAC);
                     licence.setYear(null);
-                    licence.setNote(null);
+                    licence.setGrade(null);
 
                     AcademicProfile profile = new AcademicProfile();
                     profile.setCurrentDiploma(licence);
-                    profile.setCustomAttributes(Map.of("gpa", 3.2));
+                    profile.setCustomAttributes(Map.of("bilingual", true));
+                    profile.setCustomAttributes(Map.of("birthdate", new Date()));
+                    profile.setCustomAttributes(Map.of("motivation", "i'm happy"));
 
-                    Diplome bac = new Diplome();
-                    bac.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
-                    bac.setEcole("Lycee Mohammed V");
-                    bac.setFiliere("Sciences Mathématiques");
-                    bac.setIntitule("Bac en Sciences Mathématiques");
+                    Diploma bac = new Diploma();
+                    bac.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
+                    bac.setSchool("Lycee Mohammed V");
+                    bac.setStudyField("Sciences Mathématiques");
+                    bac.setTitle("Bac en Sciences Mathématiques");
                     bac.setYear(2021);
-                    bac.setNiveauEtude(NiveauEtude.BAC);
-                    bac.setNote(15.10);
+                    bac.setStudyLevel(StudyLevel.BAC);
+                    bac.setGrade(15.10);
 
-                    profile.getDiplomes().add(bac);
+                    profile.getDiplomas().add(bac);
 
                     Student student = new Student();
                     student.setUserId(studentUser.getId());
@@ -215,29 +239,31 @@ public class DatabaseSeeder implements ApplicationRunner {
 
                     userDao.save(studentUser);
 
-                    Diplome licence = new Diplome();
-                    licence.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
-                    licence.setEcole("FST");
-                    licence.setFiliere("Licence");
-                    licence.setIntitule("Licence en Informatique");
-                    licence.setNiveauEtude(NiveauEtude.BAC);
+                    Diploma licence = new Diploma();
+                    licence.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
+                    licence.setSchool("FST");
+                    licence.setStudyField("Licence");
+                    licence.setTitle("Licence en Informatique");
+                    licence.setStudyLevel(StudyLevel.BAC);
                     licence.setYear(null);
-                    licence.setNote(null);
+                    licence.setGrade(null);
 
                     AcademicProfile profile = new AcademicProfile();
                     profile.setCurrentDiploma(licence);
-                    profile.setCustomAttributes(Map.of("gpa", 3.8));
+                    profile.setCustomAttributes(Map.of("bilingual", true));
+                    profile.setCustomAttributes(Map.of("birthdate", new Date()));
+                    profile.setCustomAttributes(Map.of("motivation", "i'm happy"));
 
-                    Diplome bac = new Diplome();
-                    bac.setUniversite(Universite.SOLTAN_MOLAY_SLIMANE);
-                    bac.setEcole("Lycee Al Khawarizmi");
-                    bac.setFiliere("Sciences Mathématiques A");
-                    bac.setIntitule("Bac Sciences Mathématiques A");
+                    Diploma bac = new Diploma();
+                    bac.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
+                    bac.setSchool("Lycee Al Khawarizmi");
+                    bac.setStudyField("Sciences Mathématiques A");
+                    bac.setTitle("Bac Sciences Mathématiques A");
                     bac.setYear(2020);
-                    bac.setNiveauEtude(NiveauEtude.BAC);
-                    bac.setNote(16.45);
+                    bac.setStudyLevel(StudyLevel.BAC);
+                    bac.setGrade(16.45);
 
-                    profile.getDiplomes().add(bac);
+                    profile.getDiplomas().add(bac);
 
                     Student student = new Student();
                     student.setUserId(studentUser.getId());
@@ -247,26 +273,6 @@ public class DatabaseSeeder implements ApplicationRunner {
                 }
         );
 
-
-        /* ===================== ACADEMIC PROFILE FIELDS ===================== */
-        createAcademicFieldIfNotExists(
-                "disabled",
-                "Disabled",
-                FieldType.BOOLEAN,
-                false
-        );
-        createAcademicFieldIfNotExists(
-                "birthdate",
-                "Birthdate",
-                FieldType.DATE,
-                true
-        );
-        createAcademicFieldIfNotExists(
-                "motivation",
-                "Motivation",
-                FieldType.TEXT,
-                false
-        );
     }
 
     /* ===================== HELPERS ===================== */
