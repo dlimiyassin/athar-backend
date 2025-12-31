@@ -24,6 +24,7 @@ public class AcademicProfileTransformer
         }
 
         AcademicProfile profile = new AcademicProfile();
+        profile.setGender(dto.gender());
         profile.setCurrentDiploma(diplomaTransformer.toEntity(dto.currentDiploma()));
         profile.setCustomAttributes(dto.customAttributes());
 
@@ -46,6 +47,7 @@ public class AcademicProfileTransformer
         }
 
         return new AcademicProfileDto(
+                entity.getGender(),
                 diplomaTransformer.toDto(entity.getCurrentDiploma()),
                 entity.getCustomAttributes(),
                 entity.getDiplomas() != null

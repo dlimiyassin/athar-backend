@@ -128,6 +128,10 @@ public class StudentServiceImpl implements StudentService {
 
         if (profile == null) return true;
 
+        if (profile.getGender() == null || profile.getGender().isBlank()) {
+            return true;
+        };
+
         // ---- Current diploma is required ----
         if (profile.getCurrentDiploma() == null) return true;
 

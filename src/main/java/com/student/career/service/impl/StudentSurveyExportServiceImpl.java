@@ -85,6 +85,7 @@ public class StudentSurveyExportServiceImpl
 
             headers.addAll(List.of(
                     "student_id",
+                    "gender",
                     "university",
                     "school",
                     "level",
@@ -146,6 +147,7 @@ public class StudentSurveyExportServiceImpl
 
                     // Fixed columns
                     row.add(anonymizationUtil.anonymizeStudentId(student.getId()));
+                    row.add(profile != null && profile.getGender() != null ? String.valueOf(profile.getGender())  : "Unknown");
                     row.add(diploma != null && diploma.getUniversity() != null
                             ? diploma.getUniversity().name()
                             : "");

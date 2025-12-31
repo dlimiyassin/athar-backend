@@ -1,5 +1,6 @@
 package com.student.career.bean;
 
+import com.student.career.bean.enums.Gender;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,8 @@ import java.util.Map;
 @Getter
 @Setter
 public class AcademicProfile {
+
+    private String gender;
 
     private Diploma currentDiploma;
     // Dynamic, teacher-defined fields
