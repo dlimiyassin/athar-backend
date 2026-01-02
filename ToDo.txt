@@ -1,5 +1,4 @@
 
-- add male/female
 - sync universities/schools/ study fields in setup profile
 - make grade/year in current diploma optional
 - edit profile for students

@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum University {
-    SOLTAN_MOLAY_SLIMANE("Université Sultan Moulay Slimane"),
     HASSAN_2("Université Hassan II"),
+    SOLTAN_MOLAY_SLIMANE("Université Sultan Moulay Slimane"),
     IBN_TOFAIL("Université Ibn Tofail"),
     CADI_AYYAD("Université Cadi Ayyad"),
     SIDI_MOHAMED_BEN_ABDELLAH("Université Sidi Mohamed Ben Abdellah"),
@@ -32,11 +32,6 @@ public enum University {
     UNIVERSITE_POLYDISCIPLINAIRE_DE_LARACHE("Université Polydisciplinaire de Larache"),
     UNIVERSITE_POLYDISCIPLINAIRE_DE_SAFI("Université Polydisciplinaire de Safi"),
     UNIVERSITE_POLYDISCIPLINAIRE_DE_TAZA("Université Polydisciplinaire de Taza"),
-    ECOLE_NATIONALE_SUPERIEURE_D_INFORMATIQUE_ET_D_ANALYSE_DES_SYSTEMES("École Nationale Supérieure d'Informatique et d'Analyse des Systèmes"),
-    ECOLE_MOHAMMADIA_D_INGENIEURS("École Mohammadia d'Ingénieurs"),
-    ECOLE_NATIONALE_SUPERIEURE_DES_ARTS_ET_METIERS("École Nationale Supérieure des Arts et Métiers"),
-    ECOLE_NATIONALE_DE_COMMERCE_ET_DE_GESTION("École Nationale de Commerce et de Gestion"),
-    INSTITUT_NATIONAL_DES_SCIENCES_APPLIQUEES("Institut National des Sciences Appliquées"),
     AUTRE("Autre");
 
     private final String nom;
