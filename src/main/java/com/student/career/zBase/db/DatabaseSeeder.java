@@ -1,11 +1,7 @@
 package com.student.career.zBase.db;
 
 import com.student.career.bean.*;
-import com.student.career.bean.enums.FieldType;
-import com.student.career.bean.enums.StudyLevel;
-import com.student.career.bean.enums.QuestionType;
-import com.student.career.bean.enums.TargetType;
-import com.student.career.bean.enums.University;
+import com.student.career.bean.enums.*;
 import com.student.career.dao.AcademicProfileFieldRepository;
 import com.student.career.service.api.StudentService;
 import com.student.career.service.api.SurveyService;
@@ -139,7 +135,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     Diploma licence = new Diploma();
                     licence.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
                     licence.setSchool("FST");
-                    licence.setStudyField("Licence");
+                    licence.setStudyField(FieldOfStudy.ACCOUNTING);
                     licence.setTitle("Licence en Science Physique");
                     licence.setStudyLevel(StudyLevel.BAC);
                     licence.setYear(null);
@@ -155,7 +151,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     Diploma bac = new Diploma();
                     bac.setUniversity(University.SIDI_MOHAMED_BEN_ABDELLAH);
                     bac.setSchool("Lycee Hassan 2");
-                    bac.setStudyField("Science Physique");
+                    bac.setStudyField(FieldOfStudy.BUSINESS);
                     bac.setTitle("Bac en Science Physique");
                     bac.setYear(2022);
                     bac.setStudyLevel(StudyLevel.BAC);
@@ -191,7 +187,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     Diploma licence = new Diploma();
                     licence.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
                     licence.setSchool("FST");
-                    licence.setStudyField("Licence");
+                    licence.setStudyField(FieldOfStudy.ELECTRICAL_ENGINEERING);
                     licence.setTitle("Licence en Mathématiques Appliquées");
                     licence.setStudyLevel(StudyLevel.BAC);
                     licence.setYear(null);
@@ -206,7 +202,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     Diploma bac = new Diploma();
                     bac.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
                     bac.setSchool("Lycee Mohammed V");
-                    bac.setStudyField("Sciences Mathématiques");
+                    bac.setStudyField(FieldOfStudy.MATHEMATICS);
                     bac.setTitle("Bac en Sciences Mathématiques");
                     bac.setYear(2021);
                     bac.setStudyLevel(StudyLevel.BAC);
@@ -242,7 +238,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     Diploma licence = new Diploma();
                     licence.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
                     licence.setSchool("FST");
-                    licence.setStudyField("Licence");
+                    licence.setStudyField(FieldOfStudy.EDUCATION);
                     licence.setTitle("Licence en Informatique");
                     licence.setStudyLevel(StudyLevel.BAC);
                     licence.setYear(null);
@@ -257,7 +253,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                     Diploma bac = new Diploma();
                     bac.setUniversity(University.SOLTAN_MOLAY_SLIMANE);
                     bac.setSchool("Lycee Al Khawarizmi");
-                    bac.setStudyField("Sciences Mathématiques A");
+                    bac.setStudyField(FieldOfStudy.SCIENCES_MATH_A);
                     bac.setTitle("Bac Sciences Mathématiques A");
                     bac.setYear(2020);
                     bac.setStudyLevel(StudyLevel.BAC);

@@ -155,7 +155,7 @@ public class StudentSurveyExportServiceImpl
                     row.add(diploma != null && diploma.getStudyLevel() != null
                             ? diploma.getStudyLevel().name()
                             : "");
-                    row.add(diploma != null ? diploma.getStudyField() : "");
+                    row.add(diploma != null ? String.valueOf(diploma.getStudyField()) : "");
 //                    row.add(diploma != null ? diploma.getTitle() : "");
 //                    row.add(diploma != null && diploma.getYear() != null
 //                            ? diploma.getYear().toString()

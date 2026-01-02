@@ -5,6 +5,19 @@ import lombok.Getter;
 @Getter
 public enum FieldOfStudy {
 
+    // Bac Options
+    SCIENCES_MATH_A("Sciences Mathématiques A"),
+    SCIENCES_MATH_B("Sciences Mathématiques B"),
+    SCIENCES_PHYSIQUES("Sciences Physiques"),
+    SVT("Sciences de la Vie et de la Terre"),
+    SCIENCES_ECO_SOCIALES("Sciences Économiques et Sociales"),
+    LETTRES_SCIENCES_HUMAINES("Lettres et Sciences Humaines"),
+    LANGUES("Langues"),
+    SCIENCES_EXPERIMENTALES("Sciences Expérimentales"),
+    STMG("Sciences et Technologies du Management et de la Gestion"),
+    BAC_PRO_COMMERCE("Baccalauréat Professionnel - Commerce"),
+    BAC_PRO_TECHNIQUE("Baccalauréat Professionnel - Technique"),
+
     // Science & Technology
     MATHEMATICS("Mathematics"),
     PHYSICS("Physics"),

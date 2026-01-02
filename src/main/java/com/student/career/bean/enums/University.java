@@ -25,13 +25,6 @@ public enum University {
     HASSAN_PREMIER("Université Hassan Premier"),
     MOULAY_ISMAIL("Université Moulay Ismail"),
     UNIVERSITE_INTERNATIONALE_DE_RABAT("Université Internationale de Rabat"),
-    UNIVERSITE_PRIVEE_DE_MARRAKECH("Université Privée de Marrakech"),
-    UNIVERSITE_EURO_MEDITERRANEENNE_DE_FES("Université Euro-Méditerranéenne de Fès"),
-    UNIVERSITE_POLYDISCIPLINAIRE_DE_BENI_MELLAL("Université Polydisciplinaire de Beni Mellal"),
-    UNIVERSITE_POLYDISCIPLINAIRE_DE_KHOURIBGA("Université Polydisciplinaire de Khouribga"),
-    UNIVERSITE_POLYDISCIPLINAIRE_DE_LARACHE("Université Polydisciplinaire de Larache"),
-    UNIVERSITE_POLYDISCIPLINAIRE_DE_SAFI("Université Polydisciplinaire de Safi"),
-    UNIVERSITE_POLYDISCIPLINAIRE_DE_TAZA("Université Polydisciplinaire de Taza"),
     AUTRE("Autre");
 
     private final String nom;
