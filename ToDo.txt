@@ -1,9 +1,7 @@
-- update types of diploma in back and frontend
-- sync universities/schools/ study fields in setup profile
-- make grade/year in current diploma optional
+
+- work on import
+
 - edit profile for students
-- add dropdown (authenticated user in navbar)
-- pagination in surveys response for teacher
 - duplicate profile for admin
 - dockerize the app
 
