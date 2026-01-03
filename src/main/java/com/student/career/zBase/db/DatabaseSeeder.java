@@ -96,8 +96,8 @@ public class DatabaseSeeder implements ApplicationRunner {
                 u -> {},
                 () -> {
                     User teacher = new User();
-                    teacher.setFirstName("Teacher");
-                    teacher.setLastName("One");
+                    teacher.setFirstName("Ahmed");
+                    teacher.setLastName("Hachimi");
                     teacher.setEmail("teacher@studentcareer.com");
                     teacher.setPassword(passwordEncoder.encode("teacher"));
                     teacher.setEnabled(true);
@@ -119,8 +119,8 @@ public class DatabaseSeeder implements ApplicationRunner {
                 u -> {},
                 () -> {
                     User studentUser = new User();
-                    studentUser.setFirstName("Student");
-                    studentUser.setLastName("One");
+                    studentUser.setFirstName("Yassine");
+                    studentUser.setLastName("Dlimi");
                     studentUser.setEmail("student@studentcareer.com");
                     studentUser.setPassword(passwordEncoder.encode("student"));
                     studentUser.setEnabled(true);
