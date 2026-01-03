@@ -1,5 +1,10 @@
 package com.student.career.zBase.db;
 
+import com.student.career.ImportExportCsv.beans.FutureFieldOfStudy;
+import com.student.career.ImportExportCsv.beans.PredictionType;
+import com.student.career.ImportExportCsv.beans.PredictionValueType;
+import com.student.career.ImportExportCsv.dao.FieldOfStudyRepository;
+import com.student.career.ImportExportCsv.dao.PredictionTypeRepository;
 import com.student.career.bean.*;
 import com.student.career.bean.enums.*;
 import com.student.career.dao.AcademicProfileFieldRepository;
@@ -26,6 +31,10 @@ public class DatabaseSeeder implements ApplicationRunner {
     private final AcademicProfileFieldRepository academicProfileFieldRepository;
     private final PasswordEncoder passwordEncoder;
     private final SurveyService surveyService; // Add SurveyService
+    private final FieldOfStudyRepository fieldOfStudyRepository;
+    private final PredictionTypeRepository predictionTypeRepository;
+
+
 
     public DatabaseSeeder(
             UserDao userDao,
@@ -33,7 +42,7 @@ public class DatabaseSeeder implements ApplicationRunner {
             StudentService studentService,
             AcademicProfileFieldRepository academicProfileFieldRepository,
             PasswordEncoder passwordEncoder,
-            SurveyService surveyService // Inject SurveyService
+            SurveyService surveyService, FieldOfStudyRepository fieldOfStudyRepository, PredictionTypeRepository predictionTypeRepository // Inject SurveyService
     ) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -41,6 +50,8 @@ public class DatabaseSeeder implements ApplicationRunner {
         this.academicProfileFieldRepository = academicProfileFieldRepository;
         this.passwordEncoder = passwordEncoder;
         this.surveyService = surveyService;
+        this.fieldOfStudyRepository = fieldOfStudyRepository;
+        this.predictionTypeRepository = predictionTypeRepository;
     }
 
     @Override
@@ -269,6 +280,13 @@ public class DatabaseSeeder implements ApplicationRunner {
                 }
         );
 
+        /* ===================== FIELD OF STUDY MASTER DATA ===================== */
+        seedFieldOfStudies();
+
+        /* ===================== PREDICTION TYPES ===================== */
+        seedPredictionTypes();
+
+
     }
 
     /* ===================== HELPERS ===================== */
@@ -404,4 +422,109 @@ public class DatabaseSeeder implements ApplicationRunner {
         courseQuality.setQuestions(questions2);
         surveyService.save(courseQuality);
     }
+
+    private void seedFieldOfStudies() {
+
+        Map<Integer, String> fields = new LinkedHashMap<>();
+
+        fields.put(1, "Mathematics");
+        fields.put(2, "Physics");
+        fields.put(3, "Chemistry");
+        fields.put(4, "Biology");
+        fields.put(5, "Computer Science");
+        fields.put(6, "Electronics");
+        fields.put(7, "Mechanical Engineering");
+        fields.put(8, "Civil Engineering");
+        fields.put(9, "Electrical Engineering");
+        fields.put(10, "Software Engineering");
+        fields.put(11, "Industrial Engineering");
+        fields.put(12, "Telecommunications");
+        fields.put(13, "Economics");
+        fields.put(14, "Management");
+        fields.put(15, "Business");
+        fields.put(16, "Finance");
+        fields.put(17, "Accounting");
+        fields.put(18, "Marketing");
+        fields.put(19, "Logistics and Transport");
+        fields.put(20, "Medicine");
+        fields.put(21, "Pharmacy");
+        fields.put(22, "Dentistry");
+        fields.put(23, "Nursing");
+        fields.put(24, "Public Health");
+        fields.put(25, "Law");
+        fields.put(26, "Political Science");
+        fields.put(27, "International Relations");
+        fields.put(28, "Education Sciences");
+        fields.put(29, "Psychology");
+        fields.put(30, "Sociology");
+        fields.put(31, "Literature");
+        fields.put(32, "Languages");
+        fields.put(33, "History");
+        fields.put(34, "Geography");
+        fields.put(35, "Philosophy");
+        fields.put(36, "Agriculture");
+        fields.put(37, "Agronomy");
+        fields.put(38, "Environment");
+        fields.put(39, "Agri-Food Science");
+        fields.put(40, "Data Science");
+        fields.put(41, "Artificial Intelligence");
+        fields.put(42, "Cybersecurity");
+        fields.put(43, "Other");
+
+        fields.forEach((code, name) -> {
+            fieldOfStudyRepository.findByCode(code)
+                    .orElseGet(() -> {
+                        FutureFieldOfStudy f = new FutureFieldOfStudy();
+                        f.setCode(code);
+                        f.setLabel(name);
+                        f.setActive(true);
+                        return fieldOfStudyRepository.save(f);
+                    });
+        });
+    }
+
+
+    private void seedPredictionTypes() {
+
+        createPredictionTypeIfNotExists(
+                "FIELD_OF_STUDY",
+                "Future Field of Study",
+                PredictionValueType.NUMBER,
+                "AI prediction for the most suitable field of study"
+        );
+
+        createPredictionTypeIfNotExists(
+                "JOB_ELIGIBILITY",
+                "Job Eligibility",
+                PredictionValueType.BOOLEAN,
+                "AI prediction indicating whether the student can get a job"
+        );
+
+        createPredictionTypeIfNotExists(
+                "GRADE_PREDICTION",
+                "Grade Prediction",
+                PredictionValueType.NUMBER,
+                "AI predicted grade for a course or module (0–20)"
+        );
+    }
+
+    private void createPredictionTypeIfNotExists(
+            String code,
+            String label,
+            PredictionValueType valueType,
+            String description
+    ) {
+        predictionTypeRepository.findByCode(code)
+                .orElseGet(() -> {
+                    PredictionType type = new PredictionType();
+                    type.setCode(code);
+                    type.setLabel(label);
+                    type.setValueType(valueType);
+                    type.setDescription(description);
+                    type.setActive(true);
+                    return predictionTypeRepository.save(type);
+                });
+    }
+
+
 }

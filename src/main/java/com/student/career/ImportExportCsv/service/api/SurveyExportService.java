@@ -1,8 +1,8 @@
-package com.student.career.service.api;
+package com.student.career.ImportExportCsv.service.api;
 
 import jakarta.servlet.http.HttpServletResponse;
 
-public interface StudentSurveyExportService {
+public interface SurveyExportService {
 
     void exportStudentsSurveyCsv(HttpServletResponse response);
 }

@@ -1,19 +1,19 @@
-package com.student.career.ws.controller;
+package com.student.career.ImportExportCsv.controller;
 
-import com.student.career.service.api.StudentSurveyExportService;
+import com.student.career.ImportExportCsv.service.api.SurveyExportService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/admin/export")
-public class StudentSurveyExportController {
+@RequestMapping("/api/survey/export")
+public class SurveyExportController {
 
-    private final StudentSurveyExportService exportService;
+    private final SurveyExportService exportService;
 
-    public StudentSurveyExportController(
-            StudentSurveyExportService exportService
+    public SurveyExportController(
+            SurveyExportService exportService
     ) {
         this.exportService = exportService;
     }

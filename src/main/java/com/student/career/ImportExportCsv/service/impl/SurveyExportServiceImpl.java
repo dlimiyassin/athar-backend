@@ -1,4 +1,4 @@
-package com.student.career.service.impl;
+package com.student.career.ImportExportCsv.service.impl;
 
 import com.student.career.bean.AcademicProfile;
 import com.student.career.bean.AcademicProfileField;
@@ -8,7 +8,7 @@ import com.student.career.dao.AcademicProfileFieldRepository;
 import com.student.career.dao.StudentRepository;
 import com.student.career.dao.SurveyRepository;
 import com.student.career.dao.SurveyResponseRepository;
-import com.student.career.service.api.StudentSurveyExportService;
+import com.student.career.ImportExportCsv.service.api.SurveyExportService;
 import com.student.career.zBase.util.AnonymizationUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.csv.CSVFormat;
@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class StudentSurveyExportServiceImpl
-        implements StudentSurveyExportService {
+public class SurveyExportServiceImpl
+        implements SurveyExportService {
 
     private final StudentRepository studentRepository;
     private final AcademicProfileFieldRepository academicProfileFieldRepository;
@@ -27,7 +27,7 @@ public class StudentSurveyExportServiceImpl
     private final SurveyResponseRepository surveyResponseRepository;
     private final AnonymizationUtil anonymizationUtil;
 
-    public StudentSurveyExportServiceImpl(
+    public SurveyExportServiceImpl(
             StudentRepository studentRepository,
             AcademicProfileFieldRepository academicProfileFieldRepository,
             SurveyRepository surveyRepository,
