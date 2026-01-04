@@ -86,7 +86,6 @@ public class SurveyImportServiceImpl
             PredictionType type,
             String raw
     ) {
-
         return switch (type.getValueType()) {
 
             case BOOLEAN -> raw.equals("1") ? "YES" : "NO";

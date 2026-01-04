@@ -4,11 +4,14 @@ import :
 - clear the component once imported in order to reimport
 - add crud for future field and prediction types
 - show the student the prediction
+- show icon when file uploaded
 
+- add illustrations in sign in and sign up
 - edit profile for students
 - duplicate profile for admin
 - dockerize the app
 
 fixs:
 - refresh token not working
+- guards
 - fix responsivity in setup,

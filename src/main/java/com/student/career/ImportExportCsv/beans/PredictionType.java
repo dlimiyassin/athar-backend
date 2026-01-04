@@ -2,12 +2,14 @@ package com.student.career.ImportExportCsv.beans;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "prediction_types")
 @Getter
 @Setter
+@ToString
 public class PredictionType {
 
     @Id

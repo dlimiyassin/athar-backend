@@ -489,7 +489,7 @@ public class DatabaseSeeder implements ApplicationRunner {
         createPredictionTypeIfNotExists(
                 "FIELD_OF_STUDY",
                 "Future Field of Study",
-                PredictionValueType.NUMBER,
+                PredictionValueType.CATEGORY,
                 "AI prediction for the most suitable field of study"
         );
 
