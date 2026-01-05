@@ -15,6 +15,11 @@ public class PredictionTypeController {
 
     private final PredictionTypeService service;
 
+    @GetMapping()
+    public List<PredictionTypeDto> findAll() {
+        return service.findAll();
+    }
+
     @GetMapping("/active")
     public List<PredictionTypeDto> findActive() {
         return service.findAllActive();
@@ -28,6 +33,11 @@ public class PredictionTypeController {
     @GetMapping("/code/{code}")
     public PredictionTypeDto findByCode(@PathVariable String code) {
         return service.findByCode(code);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable String id) {
+        service.deleteByID(id);
     }
 }
 

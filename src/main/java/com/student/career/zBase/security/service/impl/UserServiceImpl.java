@@ -127,14 +127,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        findById(user.getId());
-        if (user.isEnabled()) {
-            user.setStatus(UserStatus.ACTIF);
+        User found = findById(user.getId());
+
+        found.setFirstName(user.getFirstName());
+        found.setLastName(user.getLastName());
+        found.setPhoneNumber(user.getPhoneNumber());
+        found.setEnabled(user.isEnabled());
+
+        if (found.isEnabled()) {
+            found.setStatus(UserStatus.ACTIF);
         } else {
-            user.setStatus(UserStatus.BLOQUE);
+            found.setStatus(UserStatus.BLOQUE);
         }
-        return userDao.save(user);
+
+        return userDao.save(found);
     }
+
 
     @Override
     public void delete(String id) {

@@ -5,6 +5,7 @@ import com.student.career.ImportExportCsv.dao.PredictionTypeRepository;
 import com.student.career.ImportExportCsv.ws.dto.PredictionTypeDto;
 import com.student.career.ImportExportCsv.service.api.PredictionTypeService;
 import com.student.career.ImportExportCsv.ws.transformer.PredictionTypeTransformer;
+import com.student.career.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,14 @@ public class PredictionTypeServiceImpl implements PredictionTypeService {
 
     private final PredictionTypeRepository repository;
     private final PredictionTypeTransformer transformer;
+
+    @Override
+    public List<PredictionTypeDto> findAll(){
+        return repository.findAll()
+                .stream()
+                .map(transformer::toDto)
+                .toList();
+    };
 
     @Override
     public List<PredictionTypeDto> findAllActive() {
@@ -37,6 +46,12 @@ public class PredictionTypeServiceImpl implements PredictionTypeService {
         return repository.findByCode(code)
                 .map(transformer::toDto)
                 .orElse(null);
+    }
+
+    @Override
+    public void deleteByID(String id){
+        if (this.repository.findById(id).isEmpty()) throw new ResourceNotFoundException("Prediction Type","Id",id);
+        this.repository.deleteById(id);
     }
 }
 

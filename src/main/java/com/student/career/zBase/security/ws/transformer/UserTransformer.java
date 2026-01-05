@@ -28,8 +28,8 @@ public class UserTransformer extends AbstractTransformer<User, UserDto> {
             user.setLastName(dto.lastName());
             user.setEmail(dto.email());
             user.setPassword(dto.password());
-//            user.setEnabled(dto.enabled());
-//            user.setStatus(dto.status());
+            user.setEnabled(dto.enabled());
+            user.setStatus(dto.status());
             user.setPhoneNumber(dto.phoneNumber());
             user.setRoles(new HashSet<>(roleTransformer.toEntity(dto.roleDtos())));
             return user;

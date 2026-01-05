@@ -19,12 +19,10 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final UserService userService;
-    private final AcademicProfileFieldService academicProfileFieldService;
 
-    public StudentServiceImpl(StudentRepository studentRepository, UserService userService, AcademicProfileFieldService academicProfileFieldService) {
+    public StudentServiceImpl(StudentRepository studentRepository, UserService userService) {
         this.studentRepository = studentRepository;
         this.userService = userService;
-        this.academicProfileFieldService = academicProfileFieldService;
     }
 
 

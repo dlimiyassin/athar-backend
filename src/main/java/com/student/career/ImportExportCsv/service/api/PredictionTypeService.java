@@ -12,4 +12,8 @@ public interface PredictionTypeService {
     PredictionTypeDto save(PredictionTypeDto dto);
 
     PredictionTypeDto findByCode(String code);
+
+    List<PredictionTypeDto> findAll();
+
+    void deleteByID(String id);
 }

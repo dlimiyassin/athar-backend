@@ -15,6 +15,11 @@ public class FutureFieldOfStudyController {
 
     private final FutureFieldOfStudyService service;
 
+    @GetMapping()
+    public List<FutureFieldOfStudyDto> findAll() {
+        return service.findAll();
+    }
+
     @GetMapping("/active")
     public List<FutureFieldOfStudyDto> findActive() {
         return service.findAllActive();
@@ -28,5 +33,10 @@ public class FutureFieldOfStudyController {
     @GetMapping("/code/{code}")
     public FutureFieldOfStudyDto findByCode(@PathVariable Integer code) {
         return service.findByCode(code);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable String id) {
+        service.deleteByID(id);
     }
 }

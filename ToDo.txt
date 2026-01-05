@@ -1,17 +1,11 @@
 import :
-- fix field of study import (interpretation does not work)
-- use message service instead of alert
-- clear the component once imported in order to reimport
-- add crud for future field and prediction types
-- show the student the prediction
-- show icon when file uploaded
+- show students the predictions
 
 - add illustrations in sign in and sign up
 - edit profile for students
-- duplicate profile for admin
 - dockerize the app
 
 fixs:
 - refresh token not working
 - guards
-- fix responsivity in setup,
+- fix responsivity in setup
