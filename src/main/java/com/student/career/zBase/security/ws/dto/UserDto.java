@@ -14,6 +14,7 @@ public record UserDto(
         String phoneNumber,
         boolean enabled,
         UserStatus status,
+        String lastLogin,
         List<RoleDto> roleDtos
 ) {
 }

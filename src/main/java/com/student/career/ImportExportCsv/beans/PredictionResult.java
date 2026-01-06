@@ -1,5 +1,6 @@
 package com.student.career.ImportExportCsv.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -28,6 +29,7 @@ public class PredictionResult {
     private String rawValue;          // value from CSV (stringified)
     private String interpretedValue;  // final readable value
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Instant generatedAt = Instant.now();
     private String modelVersion;      // optional but STRONGLY recommended
 }

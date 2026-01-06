@@ -1,5 +1,6 @@
 package com.student.career.zBase.security.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.student.career.zBase.security.bean.enums.UserStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -29,6 +32,10 @@ public class User {
     private String password;
     private boolean enabled = false;
     private UserStatus status = UserStatus.EN_ATTENTE;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Instant lastLogin;
+
     @JsonBackReference
     private Set<Role> roles = new HashSet<>();
 

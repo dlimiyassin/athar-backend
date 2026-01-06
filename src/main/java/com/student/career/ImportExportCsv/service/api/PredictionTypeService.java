@@ -1,19 +1,22 @@
 package com.student.career.ImportExportCsv.service.api;
 
 
-import com.student.career.ImportExportCsv.ws.dto.PredictionTypeDto;
+
+import com.student.career.ImportExportCsv.beans.PredictionType;
 
 import java.util.List;
 
 public interface PredictionTypeService {
 
-    List<PredictionTypeDto> findAllActive();
+    List<PredictionType> findAllActive();
 
-    PredictionTypeDto save(PredictionTypeDto dto);
+    PredictionType save(PredictionType dto);
 
-    PredictionTypeDto findByCode(String code);
+    PredictionType findByCode(String code);
 
-    List<PredictionTypeDto> findAll();
+    PredictionType findById(String code);
+
+    List<PredictionType> findAll();
 
     void deleteByID(String id);
 }

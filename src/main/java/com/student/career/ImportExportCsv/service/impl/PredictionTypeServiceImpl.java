@@ -16,42 +16,43 @@ import java.util.List;
 public class PredictionTypeServiceImpl implements PredictionTypeService {
 
     private final PredictionTypeRepository repository;
-    private final PredictionTypeTransformer transformer;
 
     @Override
-    public List<PredictionTypeDto> findAll(){
-        return repository.findAll()
-                .stream()
-                .map(transformer::toDto)
-                .toList();
-    };
+    public List<PredictionType> findAll() {
+        return repository.findAll();
+    }
 
     @Override
-    public List<PredictionTypeDto> findAllActive() {
+    public List<PredictionType> findAllActive() {
         return repository.findAll()
                 .stream()
                 .filter(PredictionType::isActive)
-                .map(transformer::toDto)
                 .toList();
     }
 
     @Override
-    public PredictionTypeDto save(PredictionTypeDto dto) {
-        var entity = transformer.toEntity(dto);
-        return transformer.toDto(repository.save(entity));
+    public PredictionType save(PredictionType entity) {
+        return repository.save(entity);
     }
 
     @Override
-    public PredictionTypeDto findByCode(String code) {
-        return repository.findByCode(code)
-                .map(transformer::toDto)
-                .orElse(null);
+    public PredictionType findByCode(String code) {
+        return repository.findByCode(code).orElse(null);
     }
 
     @Override
-    public void deleteByID(String id){
-        if (this.repository.findById(id).isEmpty()) throw new ResourceNotFoundException("Prediction Type","Id",id);
-        this.repository.deleteById(id);
+    public PredictionType findById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("PredictionType", "id", id)
+                );
+    }
+
+    @Override
+    public void deleteByID(String id) {
+        if (repository.findById(id).isEmpty())
+            throw new ResourceNotFoundException("PredictionType", "id", id);
+
+        repository.deleteById(id);
     }
 }
-
