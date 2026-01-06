@@ -25,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.*;
 
 @Service
@@ -209,5 +210,15 @@ public class UserServiceImpl implements UserService {
             throw new GlobalException(HttpStatus.CONFLICT, "Current password is incorrect");
         }
     }
+
+    @Override
+    public void updateLastLogin(String email) {
+        User user = userDao.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+
+        user.setLastLogin(Instant.now());
+        userDao.save(user);
+    }
+
 
 }

@@ -39,4 +39,6 @@ public interface UserService {
     List<User> findByCriteria(UserCriteria userCriteria);
 
     User updatePasswordBasedOnCurrentPassword(String email, String currentPassword, String newPassword);
+
+    void updateLastLogin(String username);
 }

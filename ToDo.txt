@@ -1,5 +1,5 @@
 import :
-- show students the predictions
+- fix unseen predictions total
 
 - add illustrations in sign in and sign up
 - edit profile for students

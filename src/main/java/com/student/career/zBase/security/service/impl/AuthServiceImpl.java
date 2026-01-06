@@ -7,6 +7,7 @@ import com.student.career.zBase.security.bean.enums.UserStatus;
 import com.student.career.zBase.security.dao.facade.RoleDao;
 import com.student.career.zBase.security.dao.facade.UserDao;
 import com.student.career.zBase.security.service.facade.AuthService;
+import com.student.career.zBase.security.service.facade.UserService;
 import com.student.career.zBase.security.utils.JWTHelper;
 import com.student.career.zBase.security.ws.dto.JWTAuthResponse;
 import com.student.career.zBase.security.ws.dto.LoginDto;
@@ -37,13 +38,15 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTHelper jwtHelper;
+    private final UserService userService;
 
-    public AuthServiceImpl(UserDao userDao, RoleDao roleDao, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JWTHelper jwtHelper) {
+    public AuthServiceImpl(UserDao userDao, RoleDao roleDao, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JWTHelper jwtHelper, UserService userService) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtHelper = jwtHelper;
+        this.userService = userService;
     }
 
     @Override
@@ -60,6 +63,9 @@ public class AuthServiceImpl implements AuthService {
         }
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authenticate.getPrincipal();
+
+        userService.updateLastLogin(user.getUsername());
+
         String jwtAccessToken = jwtHelper.generateAccessToken(
                 user.getUsername(),
                 user.getAuthorities()
