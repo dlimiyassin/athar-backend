@@ -8,6 +8,7 @@ import com.student.career.ImportExportCsv.dao.PredictionTypeRepository;
 import com.student.career.bean.*;
 import com.student.career.bean.enums.*;
 import com.student.career.dao.AcademicProfileFieldRepository;
+import com.student.career.dao.SurveyRepository;
 import com.student.career.service.api.StudentService;
 import com.student.career.service.api.SurveyService;
 import com.student.career.zBase.security.bean.Role;
@@ -30,9 +31,10 @@ public class DatabaseSeeder implements ApplicationRunner {
     private final StudentService studentService;
     private final AcademicProfileFieldRepository academicProfileFieldRepository;
     private final PasswordEncoder passwordEncoder;
-    private final SurveyService surveyService; // Add SurveyService
+
     private final FieldOfStudyRepository fieldOfStudyRepository;
     private final PredictionTypeRepository predictionTypeRepository;
+    private final SurveyRepository surveyRepository;
 
 
 
@@ -42,16 +44,16 @@ public class DatabaseSeeder implements ApplicationRunner {
             StudentService studentService,
             AcademicProfileFieldRepository academicProfileFieldRepository,
             PasswordEncoder passwordEncoder,
-            SurveyService surveyService, FieldOfStudyRepository fieldOfStudyRepository, PredictionTypeRepository predictionTypeRepository // Inject SurveyService
+            FieldOfStudyRepository fieldOfStudyRepository, PredictionTypeRepository predictionTypeRepository, SurveyRepository surveyRepository
     ) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.studentService = studentService;
         this.academicProfileFieldRepository = academicProfileFieldRepository;
         this.passwordEncoder = passwordEncoder;
-        this.surveyService = surveyService;
         this.fieldOfStudyRepository = fieldOfStudyRepository;
         this.predictionTypeRepository = predictionTypeRepository;
+        this.surveyRepository = surveyRepository;
     }
 
     @Override
@@ -319,10 +321,9 @@ public class DatabaseSeeder implements ApplicationRunner {
 
     /* ===================== SURVEY CREATION ===================== */
     private void createSampleSurveys(String teacherId) {
-        // Check if surveys already exist for this teacher
-        List<Survey> existingSurveys = surveyService.findByTeacher();
-        if (!existingSurveys.isEmpty()) {
-            return; // Surveys already created
+
+        if (!surveyRepository.findByCreatedByTeacherId(teacherId).isEmpty()) {
+            return;
         }
 
         // Survey 1: Semester Feedback
@@ -365,7 +366,7 @@ public class DatabaseSeeder implements ApplicationRunner {
         questions1.add(q3);
 
         semesterFeedback.setQuestions(questions1);
-        surveyService.save(semesterFeedback);
+        surveyRepository.save(semesterFeedback);
 
         // Survey 2: Course Quality Survey
         Survey courseQuality = new Survey();
@@ -420,7 +421,7 @@ public class DatabaseSeeder implements ApplicationRunner {
         questions2.add(q7);
 
         courseQuality.setQuestions(questions2);
-        surveyService.save(courseQuality);
+        surveyRepository.save(courseQuality);
     }
 
     private void seedFieldOfStudies() {
