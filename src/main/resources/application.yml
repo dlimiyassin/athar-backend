@@ -1,32 +1,29 @@
 spring:
   application:
-    name: student-career
+    name: ${SPRING_APPLICATION_NAME:student-career}
 
-#  web:
-#    resources:
-#      static-locations: ./productImages/
   data:
     mongodb:
-      uri: mongodb://localhost:27017/student_career
-      username:
-      password:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://mongodb:27017/student_career}
+      username: ${SPRING_DATA_MONGODB_USERNAME:}
+      password: ${SPRING_DATA_MONGODB_PASSWORD:}
 
   jackson:
     serialization:
-      indent_output: true
-    default-property-inclusion: non_null
+      indent_output: ${SPRING_JACKSON_SERIALIZATION_INDENT_OUTPUT:true}
+    default-property-inclusion: ${SPRING_JACKSON_DEFAULT_PROPERTY_INCLUSION:non_null}
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 security:
-  enabled: true
+  enabled: ${SECURITY_ENABLED:true}
 
 logging:
   level:
-    org.springframework.security: INFO
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org.springframework.security: ${LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY:INFO}
+    org.springframework.data.mongodb.core.MongoTemplate: ${LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_DATA_MONGODB_CORE_MONGOTEMPLATE:DEBUG}
 
 export:
   anonymization:
-    salt: student-career-secret-2025
+    salt: ${EXPORT_ANONYMIZATION_SALT:student-career-secret-2025}
