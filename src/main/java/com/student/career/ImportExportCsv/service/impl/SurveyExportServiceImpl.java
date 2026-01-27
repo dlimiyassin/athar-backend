@@ -4,6 +4,7 @@ import com.student.career.bean.AcademicProfile;
 import com.student.career.bean.AcademicProfileField;
 import com.student.career.bean.Diploma;
 import com.student.career.bean.Student;
+import com.student.career.bean.enums.StudyLevel;
 import com.student.career.dao.AcademicProfileFieldRepository;
 import com.student.career.dao.StudentRepository;
 import com.student.career.dao.SurveyRepository;
@@ -85,17 +86,20 @@ public class SurveyExportServiceImpl
 
             headers.addAll(List.of(
                     "student_id",
-                    "gender",
-                    "university",
-                    "school",
-                    "level",
-                    "field"
-//                    "diploma_title",
-//                    "year",
-//                    "grade"
+                    "sexe",
+                    "date de naissance",
+                    // bac
+                    "Année d'obtention du Bac",
+                    "Note d Examen National du BAC",
+                    "Option du Bac",
+                    // bac+3
+                    "Année d'obtention de la licence",
+                    "Moyenne de la licence",
+                    "Spécialité de la licence",
+                    "Etablissement de l'enseignement supérieur"
             ));
 
-            headers.addAll(academicFieldLabels);
+            //headers.addAll(academicFieldLabels);
             headers.addAll(questionLabels);
 
             /* =========================
@@ -143,37 +147,56 @@ public class SurveyExportServiceImpl
                             ? profile.getCurrentDiploma()
                             : null;
 
+                    Diploma bac = profile != null
+                            ? profile.getDiplomas().stream().filter(d -> d.getStudyLevel().equals(StudyLevel.BAC)).toList().getFirst()
+                            : null;
+
                     List<String> row = new ArrayList<>();
+
 
                     // Fixed columns
                     row.add(anonymizationUtil.anonymizeStudentId(student.getId()));
-                    row.add(profile != null && profile.getGender() != null ? String.valueOf(profile.getGender())  : "Unknown");
-                    row.add(diploma != null && diploma.getUniversity() != null
-                            ? diploma.getUniversity().name()
+                    row.add(
+                            profile != null && profile.getGender() != null
+                                    ? String.valueOf(profile.getGender())
+                                    : "Unknown");
+                    row.add(
+                            profile != null && profile.getCustomAttributes().get("birthdate") != null
+                                    ? String.valueOf(profile.getCustomAttributes().get("birthdate"))
+                                    : "Unknown"
+                    );
+
+                    // BAC
+                    row.add(bac != null && bac.getYear() != null
+                            ? bac.getYear().toString()
                             : "");
-                    row.add(diploma != null ? diploma.getSchool() : "");
-                    row.add(diploma != null && diploma.getStudyLevel() != null
-                            ? diploma.getStudyLevel().name()
+                    row.add(bac != null && bac.getGrade() != null
+                            ? bac.getGrade().toString()
+                            : "");
+                    row.add(bac != null ? String.valueOf(bac.getStudyField()) : "");
+
+
+                    // CURRENT DIPLOMA
+                    row.add(diploma != null && diploma.getYear() != null
+                            ? diploma.getYear().toString()
+                            : "");
+                    row.add(diploma != null && diploma.getGrade() != null
+                            ? diploma.getGrade().toString()
                             : "");
                     row.add(diploma != null ? String.valueOf(diploma.getStudyField()) : "");
-//                    row.add(diploma != null ? diploma.getTitle() : "");
-//                    row.add(diploma != null && diploma.getYear() != null
-//                            ? diploma.getYear().toString()
-//                            : "");
-//                    row.add(diploma != null && diploma.getGrade() != null
-//                            ? diploma.getGrade().toString()
-//                            : "");
+                    row.add(diploma != null ? diploma.getSchool() : "");
+
 
                     // Custom academic attributes
-                    Map<String, Object> customAttrs =
-                            profile != null
-                                    ? profile.getCustomAttributes()
-                                    : Map.of();
-
-                    for (AcademicProfileField field : academicFields) {
-                        Object value = customAttrs.get(field.getName());
-                        row.add(value != null ? value.toString() : "");
-                    }
+//                    Map<String, Object> customAttrs =
+//                            profile != null
+//                                    ? profile.getCustomAttributes()
+//                                    : Map.of();
+//
+//                    for (AcademicProfileField field : academicFields) {
+//                        Object value = customAttrs.get(field.getName());
+//                        row.add(value != null ? value.toString() : "");
+//                    }
 
                     // Survey answers
                     Map<String, String> answers =

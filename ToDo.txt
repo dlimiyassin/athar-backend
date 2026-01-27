@@ -1,5 +1,6 @@
 import :
 - fix unseen predictions total
+- remove predictions that student didn't answer for them
 
 - add illustrations in sign in and sign up
 - edit profile for students
