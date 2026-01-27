@@ -1,11 +1,9 @@
 package com.student.career.ImportExportCsv.service.impl;
 
 import com.student.career.bean.AcademicProfile;
-import com.student.career.bean.AcademicProfileField;
 import com.student.career.bean.Diploma;
 import com.student.career.bean.Student;
 import com.student.career.bean.enums.StudyLevel;
-import com.student.career.dao.AcademicProfileFieldRepository;
 import com.student.career.dao.StudentRepository;
 import com.student.career.dao.SurveyRepository;
 import com.student.career.dao.SurveyResponseRepository;
@@ -19,23 +17,20 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class SurveyExportServiceImpl
-        implements SurveyExportService {
+public class SurveyExportServiceImpl implements SurveyExportService {
 
     private final StudentRepository studentRepository;
-    private final AcademicProfileFieldRepository academicProfileFieldRepository;
     private final SurveyRepository surveyRepository;
     private final SurveyResponseRepository surveyResponseRepository;
     private final AnonymizationUtil anonymizationUtil;
 
     public SurveyExportServiceImpl(
             StudentRepository studentRepository,
-            AcademicProfileFieldRepository academicProfileFieldRepository,
             SurveyRepository surveyRepository,
-            SurveyResponseRepository surveyResponseRepository, AnonymizationUtil anonymizationUtil
+            SurveyResponseRepository surveyResponseRepository,
+            AnonymizationUtil anonymizationUtil
     ) {
         this.studentRepository = studentRepository;
-        this.academicProfileFieldRepository = academicProfileFieldRepository;
         this.surveyRepository = surveyRepository;
         this.surveyResponseRepository = surveyResponseRepository;
         this.anonymizationUtil = anonymizationUtil;
@@ -43,180 +38,105 @@ public class SurveyExportServiceImpl
 
     @Override
     public void exportStudentsSurveyCsv(HttpServletResponse response) {
-
         try {
+            // Set CSV headers
             response.setContentType("text/csv");
-            response.setHeader(
-                    "Content-Disposition",
-                    "attachment; filename=students_survey_export.csv"
-            );
+            response.setHeader("Content-Disposition", "attachment; filename=students_survey_export.csv");
 
+            // Fetch students
             List<Student> students = studentRepository.findAll();
-            List<String> studentIds = students.stream()
-                    .map(Student::getId)
-                    .toList();
+            System.out.println("Total students fetched: " + students.size());
 
-            /* =========================
-               1. Dynamic academic fields
-               ========================= */
-            List<AcademicProfileField> academicFields =
-                    academicProfileFieldRepository.findAll();
+            if (students.isEmpty()) {
+                System.out.println("No students found. Aborting export.");
+                return;
+            }
 
-            List<String> academicFieldLabels = academicFields.stream()
-                    .map(AcademicProfileField::getLabel)
-                    .toList();
+            List<String> studentIds = students.stream().map(Student::getId).toList();
+            System.out.println("Student IDs count: " + studentIds.size());
 
-            /* =========================
-               2. Dynamic question labels
-               ========================= */
+            // Prepare survey question labels
             Set<String> questionLabels = new LinkedHashSet<>();
-
             surveyRepository.findAll().forEach(survey -> {
                 if (survey.getQuestions() != null) {
-                    survey.getQuestions().forEach(q ->
-                            questionLabels.add(q.getLabel())
-                    );
+                    survey.getQuestions().forEach(q -> questionLabels.add(q.getLabel()));
                 }
             });
+            System.out.println("Total unique survey questions: " + questionLabels.size());
 
-            /* =========================
-               3. Header
-               ========================= */
-            List<String> headers = new ArrayList<>();
-
-            headers.addAll(List.of(
-                    "student_id",
-                    "sexe",
-                    "date de naissance",
-                    // bac
-                    "Année d'obtention du Bac",
-                    "Note d Examen National du BAC",
-                    "Option du Bac",
-                    // bac+3
-                    "Année d'obtention de la licence",
-                    "Moyenne de la licence",
-                    "Spécialité de la licence",
-                    "Etablissement de l'enseignement supérieur"
-            ));
-
-            //headers.addAll(academicFieldLabels);
-            headers.addAll(questionLabels);
-
-            /* =========================
-               4. Prepare answers lookup
-               ========================= */
-            Map<String, Map<String, String>> studentAnswersMap =
-                    new HashMap<>();
-
-            surveyResponseRepository
-                    .findByStudentIdIn(studentIds)
-                    .forEach(responseEntity -> {
-
-                        Map<String, String> answers =
-                                studentAnswersMap.computeIfAbsent(
-                                        responseEntity.getStudentId(),
-                                        k -> new HashMap<>()
-                                );
-
-                        if (responseEntity.getAnswers() != null) {
-                            responseEntity.getAnswers().forEach(a ->
-                                    answers.put(
-                                            a.getQuestionLabel(),
-                                            a.getValue()
-                                    )
-                            );
+            // Prepare survey answers map
+            Map<String, Map<String, String>> studentAnswersMap = new HashMap<>();
+            surveyResponseRepository.findByStudentIdIn(studentIds)
+                    .forEach(resp -> {
+                        Map<String, String> answers = studentAnswersMap.computeIfAbsent(resp.getStudentId(), k -> new HashMap<>());
+                        if (resp.getAnswers() != null) {
+                            resp.getAnswers().forEach(a -> answers.put(a.getQuestionLabel(), a.getValue()));
                         }
                     });
+            System.out.println("Survey responses mapped for " + studentAnswersMap.size() + " students");
 
-            /* =========================
-               5. Write CSV
-               ========================= */
-            try (CSVPrinter printer = new CSVPrinter(
-                    response.getWriter(),
-                    CSVFormat.DEFAULT.withHeader(
-                            headers.toArray(String[]::new)
-                    )
-            )) {
+            // CSV headers
+            List<String> headers = new ArrayList<>(List.of(
+                    "student_id", "sexe", "date de naissance",
+                    "Année d'obtention du Bac", "Note d Examen National du BAC", "Option du Bac",
+                    "Année d'obtention de la licence", "Moyenne de la licence", "Spécialité de la licence", "Etablissement de l'enseignement supérieur"
+            ));
+            headers.addAll(questionLabels);
 
+            // Write CSV
+            try (CSVPrinter printer = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT.withHeader(headers.toArray(String[]::new)))) {
+                System.out.println("Writing CSV for students...");
                 for (Student student : students) {
+                    try {
+                        AcademicProfile profile = student.getAcademicProfile();
+                        Diploma currentDiploma = profile != null ? profile.getCurrentDiploma() : null;
 
-                    AcademicProfile profile =
-                            student.getAcademicProfile();
+                        Diploma bac = null;
+                        if (profile != null && profile.getDiplomas() != null) {
+                            bac = profile.getDiplomas().stream()
+                                    .filter(d -> StudyLevel.BAC.equals(d.getStudyLevel()))
+                                    .findFirst()
+                                    .orElse(null);
+                        }
 
-                    Diploma diploma = profile != null
-                            ? profile.getCurrentDiploma()
-                            : null;
+                        List<String> row = new ArrayList<>();
 
-                    Diploma bac = profile != null
-                            ? profile.getDiplomas().stream().filter(d -> d.getStudyLevel().equals(StudyLevel.BAC)).toList().getFirst()
-                            : null;
+                        // Fixed columns
+                        row.add(anonymizationUtil.anonymizeStudentId(student.getId()));
+                        row.add(profile != null && profile.getGender() != null ? String.valueOf(profile.getGender()) : "Unknown");
+                        row.add(profile != null && profile.getCustomAttributes().get("birthdate") != null
+                                ? String.valueOf(profile.getCustomAttributes().get("birthdate"))
+                                : "Unknown");
 
-                    List<String> row = new ArrayList<>();
+                        // BAC info
+                        row.add(bac != null && bac.getYear() != null ? bac.getYear().toString() : "");
+                        row.add(bac != null && bac.getGrade() != null ? bac.getGrade().toString() : "");
+                        row.add(bac != null ? String.valueOf(bac.getStudyField()) : "");
 
+                        // Current diploma
+                        row.add(currentDiploma != null && currentDiploma.getYear() != null ? currentDiploma.getYear().toString() : "");
+                        row.add(currentDiploma != null && currentDiploma.getGrade() != null ? currentDiploma.getGrade().toString() : "");
+                        row.add(currentDiploma != null ? String.valueOf(currentDiploma.getStudyField()) : "");
+                        row.add(currentDiploma != null ? currentDiploma.getSchool() : "");
 
-                    // Fixed columns
-                    row.add(anonymizationUtil.anonymizeStudentId(student.getId()));
-                    row.add(
-                            profile != null && profile.getGender() != null
-                                    ? String.valueOf(profile.getGender())
-                                    : "Unknown");
-                    row.add(
-                            profile != null && profile.getCustomAttributes().get("birthdate") != null
-                                    ? String.valueOf(profile.getCustomAttributes().get("birthdate"))
-                                    : "Unknown"
-                    );
+                        // Survey answers
+                        Map<String, String> answers = studentAnswersMap.getOrDefault(student.getId(), Map.of());
+                        for (String qLabel : questionLabels) {
+                            row.add(answers.getOrDefault(qLabel, ""));
+                        }
 
-                    // BAC
-                    row.add(bac != null && bac.getYear() != null
-                            ? bac.getYear().toString()
-                            : "");
-                    row.add(bac != null && bac.getGrade() != null
-                            ? bac.getGrade().toString()
-                            : "");
-                    row.add(bac != null ? String.valueOf(bac.getStudyField()) : "");
-
-
-                    // CURRENT DIPLOMA
-                    row.add(diploma != null && diploma.getYear() != null
-                            ? diploma.getYear().toString()
-                            : "");
-                    row.add(diploma != null && diploma.getGrade() != null
-                            ? diploma.getGrade().toString()
-                            : "");
-                    row.add(diploma != null ? String.valueOf(diploma.getStudyField()) : "");
-                    row.add(diploma != null ? diploma.getSchool() : "");
-
-
-                    // Custom academic attributes
-//                    Map<String, Object> customAttrs =
-//                            profile != null
-//                                    ? profile.getCustomAttributes()
-//                                    : Map.of();
-//
-//                    for (AcademicProfileField field : academicFields) {
-//                        Object value = customAttrs.get(field.getName());
-//                        row.add(value != null ? value.toString() : "");
-//                    }
-
-                    // Survey answers
-                    Map<String, String> answers =
-                            studentAnswersMap.getOrDefault(
-                                    student.getId(),
-                                    Map.of()
-                            );
-
-                    for (String qLabel : questionLabels) {
-                        row.add(answers.getOrDefault(qLabel, ""));
+                        printer.printRecord(row);
+                    } catch (Exception e) {
+                        System.out.println("Failed to write student " + student.getId() + ": " + e.getMessage());
                     }
-
-                    printer.printRecord(row);
                 }
             }
 
+            System.out.println("CSV export completed successfully.");
+
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Failed to export CSV", e
-            );
+            System.out.println("Export failed: " + e.getMessage());
+            throw new RuntimeException("Failed to export CSV", e);
         }
     }
 }

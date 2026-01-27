@@ -9,7 +9,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${SPRING_DATA_MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${SPRING_DATA_MONGODB_PASSWORD}
-
+    ports:
+      - "27017:27017"
   backend:
     build: .
     container_name: athar-backend
