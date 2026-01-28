@@ -5,6 +5,7 @@ import :
 - add illustrations in sign in and sign up
 - edit profile for students
 - dockerize the app
+- make dashs dynamic
 
 fixs:
 - refresh token not working

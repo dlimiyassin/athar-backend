@@ -40,7 +40,7 @@ public class UserController {
     @PutMapping("/")
     public ResponseEntity<UserDto> update(@RequestBody UserDto userDto) {
         User user = userTransformer.toEntity(userDto);
-        user = userService.updatedWithAssociatedEmployee(user);
+        user = userService.update(user);
         return new ResponseEntity<>(userTransformer.toDto(user), HttpStatus.OK);
     }
 

@@ -133,13 +133,8 @@ public class UserServiceImpl implements UserService {
         found.setFirstName(user.getFirstName());
         found.setLastName(user.getLastName());
         found.setPhoneNumber(user.getPhoneNumber());
-        found.setEnabled(user.isEnabled());
-
-        if (found.isEnabled()) {
-            found.setStatus(UserStatus.ACTIF);
-        } else {
-            found.setStatus(UserStatus.BLOQUE);
-        }
+        found.setStatus(user.getStatus());
+        found.setEnabled(found.getStatus().equals(UserStatus.ACTIF));
 
         return userDao.save(found);
     }
