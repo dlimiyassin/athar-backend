@@ -55,7 +55,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Object update(Object entity) {
+    public Student update(Object entity) {
         if (entity instanceof Student student) {
             if (student.getId() == null) {
                 throw new IllegalArgumentException("Student id is required for update");
@@ -90,15 +90,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student updateAcademicProfile(
             String studentId,
-            AcademicProfile academicProfile
+            Student student
     ) {
-        Student student = studentRepository.findById(studentId)
+        Student retrievedStudent = studentRepository.findById(studentId)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Student not found with id: " + studentId)
                 );
 
-        student.setAcademicProfile(academicProfile);
-        return studentRepository.save(student);
+        retrievedStudent.setAcademicProfile(student.getAcademicProfile());
+        return studentRepository.save(retrievedStudent);
     }
 
 

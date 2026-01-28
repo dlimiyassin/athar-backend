@@ -83,6 +83,14 @@ public class StudentController {
         return ResponseEntity.ok(studentResponse);
     }
 
+    @PutMapping
+    public ResponseEntity<StudentDto> update(@RequestBody StudentDto studentDto){
+        userService.save(userTransformer.toEntity(studentDto.user()));
+        Student savedStudent = studentService.updateAcademicProfile(studentDto.id(), studentTransformer.toEntity(studentDto));
+        StudentDto studentResponse = studentTransformer.toDto(savedStudent);
+        return ResponseEntity.ok(studentResponse);
+    }
+
     @PostMapping("/complete-profile")
     public ResponseEntity<StudentDto> completeProfile(@RequestBody StudentDto studentDto){
         Student savedStudent = studentService.save(studentTransformer.toEntity(studentDto));
