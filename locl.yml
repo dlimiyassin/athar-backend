@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: student-career
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/student_career
+      username: ""
+      password: ""
+
+  jackson:
+    serialization:
+      indent_output: true
+    default-property-inclusion: non_null
+
+server:
+  port: 8080
+
+security:
+  enabled: true
+
+logging:
+  level:
+    org.springframework.security: INFO
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+export:
+  anonymization:
+    salt: student-career-secret-2025
