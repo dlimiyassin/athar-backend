@@ -17,11 +17,4 @@ public interface IService<E, D, C> {
     void delete(E entity);
 
     List<E> findByCriteria(C criteria);
-
-    void exportToPdf(HttpServletResponse response, List<D> dtos, List<String> fieldsShow);
-
-    void exportToExcel(HttpServletResponse response, List<D> dtos, List<String> fieldsShow);
-
-    void exportToCsv(HttpServletResponse response, List<D> dtos, List<String> fieldsShow);
-
 }

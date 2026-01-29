@@ -85,7 +85,7 @@ public class StudentController {
 
     @PutMapping
     public ResponseEntity<StudentDto> update(@RequestBody StudentDto studentDto){
-        userService.save(userTransformer.toEntity(studentDto.user()));
+        userService.update(userTransformer.toEntity(studentDto.user()));
         Student savedStudent = studentService.updateAcademicProfile(studentDto.id(), studentTransformer.toEntity(studentDto));
         StudentDto studentResponse = studentTransformer.toDto(savedStudent);
         return ResponseEntity.ok(studentResponse);
@@ -105,5 +105,9 @@ public class StudentController {
         return ResponseEntity.ok(isProfileIncompleted);
     }
 
-
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        studentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
