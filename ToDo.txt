@@ -1,3 +1,7 @@
+fix edit student
+test edit & delete student & admin lists
+duplicate edit student in admin,
+
 import :
 - fix unseen predictions total
 - remove predictions that student didn't answer for them
