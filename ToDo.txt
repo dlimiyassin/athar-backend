@@ -1,6 +1,9 @@
-fix edit student
-test edit & delete student & admin lists
-duplicate edit student in admin,
+fix & tester create teacher in admin,
+
+
+
+
+
 
 import :
 - fix unseen predictions total
