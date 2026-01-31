@@ -4,7 +4,7 @@ import com.student.career.bean.AcademicProfile;
 import com.student.career.bean.Student;
 import com.student.career.dao.StudentRepository;
 import com.student.career.exception.AuthenticationRequiredException;
-import com.student.career.service.api.AcademicProfileFieldService;
+import com.student.career.exception.ResourceNotFoundException;
 import com.student.career.service.api.StudentService;
 import com.student.career.zBase.security.bean.User;
 import com.student.career.zBase.security.service.facade.UserService;
@@ -46,32 +46,20 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findById(id);
     }
 
-    @Override
-    public Object save(Object entity) {
-        if (entity instanceof Student student) {
-            return studentRepository.save(student);
-        }
-        throw new IllegalArgumentException("Invalid entity type, expected Student");
-    }
 
     @Override
-    public Student update(Object entity) {
-        if (entity instanceof Student student) {
+    public Student update(Student student) {
             if (student.getId() == null) {
                 throw new IllegalArgumentException("Student id is required for update");
             }
             return studentRepository.save(student);
-        }
-        throw new IllegalArgumentException("Invalid entity type, expected Student");
     }
 
     @Override
-    public void delete(Object entity) {
-        if (entity instanceof Student student) {
-            studentRepository.delete(student);
-            return;
-        }
-        throw new IllegalArgumentException("Invalid entity type, expected Student");
+    public void delete(String studentId) {
+            Student studentFound = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student", "Id", studentId));
+            userService.delete(studentFound.getUserId());
+            studentRepository.deleteById(studentId);
     }
 
     /* ================= DOMAIN METHODS ================= */
@@ -151,35 +139,5 @@ public class StudentServiceImpl implements StudentService {
 
     private boolean isBlank(String s) {
         return s == null || s.isBlank();
-    }
-
-
-
-
-
-
-
-
-    /* ================= CRITERIA / EXPORT ================= */
-
-    @Override
-    public List findByCriteria(Object criteria) {
-        // Not implemented yet
-        return List.of();
-    }
-
-    @Override
-    public void exportToCsv(HttpServletResponse response, List dtos, List fieldsShow) {
-        // intentionally ignored
-    }
-
-    @Override
-    public void exportToExcel(HttpServletResponse response, List dtos, List fieldsShow) {
-        // intentionally ignored
-    }
-
-    @Override
-    public void exportToPdf(HttpServletResponse response, List dtos, List fieldsShow) {
-        // intentionally ignored
     }
 }

@@ -35,7 +35,10 @@ public class UserTransformer extends AbstractTransformer<User, UserDto> {
             user.setLastLogin(Instant.parse(dto.lastLogin()));
             }
             user.setPhoneNumber(dto.phoneNumber());
-            user.setRoles(new HashSet<>(roleTransformer.toEntity(dto.roleDtos())));
+            user.setRoles(new HashSet<>(
+                    roleTransformer.toEntity(dto.roleDtos() != null ? dto.roleDtos() : new ArrayList<>())
+            ));
+
             return user;
         }
     }

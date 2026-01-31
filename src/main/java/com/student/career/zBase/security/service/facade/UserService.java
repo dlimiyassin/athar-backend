@@ -24,8 +24,6 @@ public interface UserService {
 
     User update(User user);
 
-    User updatedWithAssociatedEmployee(User user);
-
     void delete(String id);
 
     User findById(String id);
