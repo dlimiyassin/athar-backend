@@ -1,3 +1,10 @@
+fix & tester create teacher in admin with role teacher,
+
+
+
+
+
+
 import :
 - fix unseen predictions total
 - remove predictions that student didn't answer for them
@@ -5,6 +12,7 @@ import :
 - add illustrations in sign in and sign up
 - edit profile for students
 - dockerize the app
+- make dashs dynamic
 
 fixs:
 - refresh token not working

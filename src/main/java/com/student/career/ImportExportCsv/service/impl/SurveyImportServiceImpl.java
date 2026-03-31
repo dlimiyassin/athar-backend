@@ -83,14 +83,14 @@ public class SurveyImportServiceImpl
         } catch (IllegalArgumentException e) {
             // Business / validation errors
             throw new RuntimeException(
-                    "Import failed at row " + rowNumber + ": " + e.getMessage(),
+                    "Import failed at row " + rowNumber + ":" + System.lineSeparator() + e.getMessage(),
                     e
             );
 
         } catch (Exception e) {
             // Parsing / IO / unexpected errors
             throw new RuntimeException(
-                    "Import failed at row " + rowNumber + " due to: " + e.getClass().getSimpleName()
+                    "Import failed at row " + rowNumber + " due to: " + System.lineSeparator() + e.getClass().getSimpleName()
                             + " - " + e.getMessage(),
                     e
             );
@@ -125,6 +125,13 @@ public class SurveyImportServiceImpl
 
             case NUMBER -> {
                 try {
+                    double number = Double.parseDouble(value);
+
+                    if (number > 20) {
+                        throw new IllegalArgumentException(
+                                type.getLabel() + " must be below than or equal to 20"
+                        );
+                    }
                     // validation only, value kept as string
                     Double.parseDouble(value);
                     yield value;

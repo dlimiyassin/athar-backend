@@ -100,6 +100,9 @@ public class UserServiceImpl implements UserService {
             }
             user.setRoles(roles);
         }
+
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
     }
 
     @Override
@@ -118,13 +121,6 @@ public class UserServiceImpl implements UserService {
         return userDao.save(user);
     }
 
-    @Override
-    @Transactional
-    public User updatedWithAssociatedEmployee(User user) {
-        User foundedUser = findById(user.getId());
-        user.setPassword(foundedUser.getPassword());
-        return userDao.save(user);
-    }
 
     @Override
     public User update(User user) {
@@ -133,13 +129,8 @@ public class UserServiceImpl implements UserService {
         found.setFirstName(user.getFirstName());
         found.setLastName(user.getLastName());
         found.setPhoneNumber(user.getPhoneNumber());
-        found.setEnabled(user.isEnabled());
-
-        if (found.isEnabled()) {
-            found.setStatus(UserStatus.ACTIF);
-        } else {
-            found.setStatus(UserStatus.BLOQUE);
-        }
+        found.setStatus(user.getStatus());
+        found.setEnabled(found.getStatus().equals(UserStatus.ACTIF));
 
         return userDao.save(found);
     }
