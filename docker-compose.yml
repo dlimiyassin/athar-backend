@@ -4,23 +4,40 @@ services:
   mongodb:
     image: mongo:7
     container_name: athar-mongodb
+    restart: always
     volumes:
       - mongo_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${SPRING_DATA_MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${SPRING_DATA_MONGODB_PASSWORD}
+    ports:
+      - "27017:27017"
+    networks:
+      - AtharSharedNetwork
 
   backend:
     build: .
+    image: dlimiyassin/athar-restapi:latest
     container_name: athar-backend
+    restart: always
     ports:
-      - "${SERVER_PORT}:8080"
+      - "${SERVER_PORT}:8083"
     depends_on:
       - mongodb
     env_file:
       - .env
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DATA_MONGODB_URI: ${SPRING_DATA_MONGODB_URI}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATA_MONGODB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATA_MONGODB_PASSWORD}
+    networks:
+      - AtharSharedNetwork
+
 
 volumes:
   mongo_data:
+
+networks:
+  AtharSharedNetwork:
+    external: true
