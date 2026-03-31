@@ -126,7 +126,7 @@ jobs:
         run: |
           sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
           cd /home/atharApplication/Development/RestApi
-          docker compose -f docker-compose.yml down
-          docker compose -f docker-compose.yml pull -q
-          docker compose -f docker-compose.yml up -d
+          docker compose -p athar -f docker-compose.yml down
+          docker compose -p athar -f docker-compose.yml pull -q
+          docker compose -p athar -f docker-compose.yml up -d
           EOF
