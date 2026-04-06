@@ -14,7 +14,17 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://72.62.20.31:8084", "http://localhost:4200")
+                .allowedOrigins(
+                    "https://atharplatforme.ma",
+                    "https://www.atharplatforme.ma",
+
+                    "http://atharplatforme.ma",
+                    "http://www.atharplatforme.ma",
+
+                    "http://72.62.20.31:8084",
+                    
+                    "http://localhost:4200"
+                )
                 .allowedMethods("DELETE", "GET", "POST", "PATCH", "PUT")
                 .allowedHeaders("Access-Control-Allow-Headers", "Access-Control-Allow-Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin", "Cache-Control", "Content-Type", "Authorization", "Content-Disposition", "enctype")
                 .exposedHeaders("Access-Control-Allow-Headers", "Access-Control-Allow-Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin", "Cache-Control", "Content-Type", "Authorization", "Content-Disposition", "enctype")
