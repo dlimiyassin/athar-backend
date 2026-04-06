@@ -36,8 +36,15 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        
+        configuration.addAllowedOrigin("https://atharplatforme.ma");
+        configuration.addAllowedOrigin("https://www.atharplatforme.ma");
+        configuration.addAllowedOrigin("http://atharplatforme.ma");
+        configuration.addAllowedOrigin("http://www.atharplatforme.ma");
+        configuration.addAllowedOrigin("http://72.62.20.31:8084");
         configuration.addAllowedOrigin("http://localhost:4200");
-        configuration.addAllowedOrigin("http://72.62.20.31:8084");configuration.setAllowCredentials(true);
+        
+        configuration.setAllowCredentials(true);
         configuration.addAllowedHeader("*"); // allow all headers
         configuration.addAllowedMethod("*"); // allow GET, POST, PUT, DELETE, etc.
 
